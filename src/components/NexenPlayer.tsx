@@ -127,7 +127,7 @@ type NexenPlayerProps = {
   source: Source;
   poster?: string | undefined;
   posterResizeMode?: ResizeMode;
-  resizeMode?: ResizeMode;
+  // resizeMode?: ResizeMode;
   title?: string;
   loadingText?: string;
   errorText?: string;
@@ -176,12 +176,14 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
       source,
       poster,
       posterResizeMode,
-      resizeMode,
+      // resizeMode,
       doubleTapTime,
       controlTimeout: controlTimeoutDelay,
       controlHideMode,
       layoutMode,
       title,
+      loadingText,
+      errorText,
       style,
       insets,
       theme,
@@ -234,9 +236,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     const [loop, setLoop] = React.useState(false);
     const [videoList, setVideoList] = React.useState<PlaylistItem[]>([]);
     const [videoIndex, setVideoIndex] = React.useState(0);
-    const [resizeModeIndex, setResizeModeIndex] = React.useState(
-      RESIZE_MODE_VALUES.indexOf(resizeMode)
-    );
+    const [resizeModeIndex, setResizeModeIndex] = React.useState(0);
     const [speed, setSpeed] = React.useState(1);
     const [locked, setLocked] = React.useState(false);
     const [volume, setVolume] = React.useState(80);
@@ -1159,8 +1159,8 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
 
     const handleDoubleTapPlayPause = () => {
       if (paused) {
-        // playerRef.current?.play();
         setPaused(false);
+        onPlay?.();
         tipViewRef.current?.updateState({
           showTip: true,
           tipText: 'Playing',
@@ -1171,8 +1171,8 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
           ),
         });
       } else {
-        // playerRef.current?.pause();
         setPaused(true);
+        onPause?.();
         tipViewRef.current?.updateState({
           showTip: true,
           tipText: 'Paused',
@@ -1188,8 +1188,8 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     /* FooterControl Callback */
     const _onPlayPress = () => {
       console.log(`onPlayPress`);
-      // playerRef.current?.play();
-      setPaused((prevState) => !prevState);
+      setPaused(false);
+      onPlay?.();
     };
 
     const _onCcPress = () => {
@@ -1300,6 +1300,11 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
 
     const _onTogglePlayPause = () => {
       console.log(`onTogglePlayPause :: ${paused}`);
+      if (paused) {
+        onPlay?.();
+      } else {
+        onPause?.();
+      }
       setPaused((prevState) => !prevState);
     };
 
@@ -1325,12 +1330,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     const _onToggleVolume = () => {
       console.log(`onToggleVolume :muted: ${muted}`);
       // playerRef.current?.muted(!muted);
-      tipViewRef.current?.updateState({
-        showTip: true,
-        tipText: !muted ? 'Sound Off' : 'Sound On',
-        autoHide: true,
-      });
-      setMuted((prevState) => !prevState);
+      handleMuteVideo(!muted);
     };
 
     const handleMuteVideo = (mute: boolean) => {
@@ -1609,6 +1609,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
           fullScreen={fullScreen}
           locked={locked}
           error={error}
+          errorText={errorText}
           isSeeking={isSeeking}
           isSliding={isSliding}
           isSeekable={isSeekable}
@@ -1642,7 +1643,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
               locked={locked}
               nexenTheme={nexenTheme}
               layoutMode={layoutMode}
-              // disableLargeMode={disableLargeMode}
+              insets={insets}
               disableBack={disableBack}
               disableRatio={disableResizeMode}
               disableMore={disableMore}
@@ -1663,8 +1664,10 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
               locked={locked}
               nexenTheme={nexenTheme}
               layoutMode={layoutMode}
+              insets={insets}
               paused={paused}
               isSeekable={isSeekable}
+              isVolumeSeekable={isVolumeSeekable}
               trackTime={trackInfo.trackTime}
               cachedTrackTime={trackInfo.cachedTrackTime}
               totalTrackTime={trackInfo.totalTrackTime}
@@ -1806,6 +1809,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
                 borderRadius: CONTAINER_BORDER_RADIUS,
               }}
               theme={loaderTheme}
+              loaderText={loadingText}
             />
           )}
 
@@ -1868,6 +1872,6 @@ const styles = StyleSheet.create({
   player: {
     width: '100%',
     height: '100%',
-    // backgroundColor: 'red',
+    backgroundColor: 'red',
   },
 });

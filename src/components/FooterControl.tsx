@@ -40,7 +40,7 @@ import { getAlphaColor } from '../utils/ColorUtil';
 import TimeTagView, { TimeTagViewTheme } from './TimeTagView';
 import VolumeTagView, { VolumeTagViewTheme } from './VolumeTagView';
 import type { NexenTheme } from '../utils/Theme';
-import type { LayoutMode } from './NexenPlayer';
+import type { EdgeInsets, LayoutMode } from './NexenPlayer';
 
 type FooterControlProps = {
   opacity: Animated.Value;
@@ -56,6 +56,7 @@ type FooterControlProps = {
   totalTrackTime: number;
   volume: number;
   totalVolume: number;
+  insets?: EdgeInsets;
   nexenTheme?: NexenTheme;
   layoutMode?: LayoutMode;
   disableSkip?: boolean;
@@ -115,6 +116,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
       locked,
       nexenTheme,
       layoutMode,
+      insets,
       trackTime,
       cachedTrackTime,
       totalTrackTime,
@@ -161,23 +163,30 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
     const ICON_SIZE_FACTOR = layoutMode === 'advanced' ? 1.8 : 1;
     const ICON_SIZE = nexenTheme?.sizes?.primaryIconSize;
     const ICON_COLOR = nexenTheme?.colors?.primaryIconColor;
-
-    const CONTROL_VERTICAL_PADDING = nexenTheme?.sizes?.paddingVertical;
-    const CONTROL_HORIZONTAL_PADDING = nexenTheme?.sizes?.paddingHorizontal;
+    const CONTAINER_VERTICAL_PADDING = fullScreen 
+    ? insets?.bottom! > 0 
+    ? insets?.bottom!
+    : nexenTheme?.sizes?.paddingVertical
+    : nexenTheme?.sizes?.paddingVertical;
+    const CONTAINER_HORIZONTAL_PADDING = fullScreen 
+    ? (insets?.left! + insets?.right!) / 2 > 0
+    ? (insets?.left! + insets?.right!) / 2
+    : nexenTheme?.sizes?.paddingHorizontal
+    : nexenTheme?.sizes?.paddingHorizontal;
     const TAG_VIEW_HEIGHT = nexenTheme?.tagView?.height;
 
-    const CONTROL_HEIGHT = locked
+    const CONTAINER_HEIGHT = locked
       ? ICON_SIZE! * ICON_SIZE_FACTOR +
         10 * 2 +
         TAG_VIEW_HEIGHT! +
-        CONTROL_VERTICAL_PADDING! +
+        CONTAINER_VERTICAL_PADDING! +
         8
       : ICON_SIZE! * ICON_SIZE_FACTOR +
         10 * 2 +
         TAG_VIEW_HEIGHT! +
-        CONTROL_VERTICAL_PADDING!;
+        CONTAINER_VERTICAL_PADDING!;
 
-    // console.log(`CONTROL_HEIGHT_FOOTER: ${CONTROL_HEIGHT}`);
+    // console.log(`FOOTER: HP: ${CONTAINER_HORIZONTAL_PADDING} VP: ${CONTAINER_VERTICAL_PADDING}`);
 
     useImperativeHandle(ref, () => ({
       updateIconTagView: (newState: IconTagViewState) => {
@@ -186,12 +195,6 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
     }));
 
     const seekBarTheme = React.useMemo((): SeekBarTheme => {
-      // const SEEK_BAR_TRACK_HEIGHT = nexenTheme?.trackSeekBar?.trackHeight;
-      // const SEEK_BAR_THUMB_SIZE = nexenTheme?.trackSeekBar?.thumbSize;
-      // const SEEK_BAR_THUMB_BORDER = nexenTheme?.trackSeekBar?.thumbBorderWidth;
-
-      // const SEEK_BAR_THUMB_RADIUS = nexenTheme?.trackSeekBar?.thumbCornerRadius;
-      // const SEEK_BAR_THUMB_BORDER_RADIUS = nexenTheme?.trackSeekBar?.thumbBorderCornerRadius;
 
       return {
         trackColor:
@@ -248,7 +251,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
         thumbSize: nexenTheme?.miniSeekBar?.thumbSize,
         thumbCornerRadius: nexenTheme?.miniSeekBar?.thumbCornerRadius,
       };
-    }, [nexenTheme, fullScreen]);
+    }, [nexenTheme, fullScreen, muted]);
 
     const timeTagViewTheme = React.useMemo((): TimeTagViewTheme => {
       return {
@@ -501,12 +504,6 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 />
               )}
             </IconButton>
-            {!disableStop && (
-              <IconButton onPress={onStopPress}>
-                <IconStop size={ICON_SIZE} color={ICON_COLOR} />
-              </IconButton>
-            )}
-
             {!disableSkip && (
               <IconButton
                 style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
@@ -549,7 +546,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
       <Animated.View
         style={[
           styles.container,
-          { height: CONTROL_HEIGHT },
+          { height: CONTAINER_HEIGHT },
           { opacity, marginBottom },
         ]}
       >
@@ -566,8 +563,8 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
           style={[
             styles.innerContainer,
             {
-              paddingBottom: CONTROL_VERTICAL_PADDING,
-              paddingHorizontal: CONTROL_HORIZONTAL_PADDING,
+              paddingBottom: CONTAINER_VERTICAL_PADDING,
+              paddingHorizontal: CONTAINER_HORIZONTAL_PADDING,
             },
           ]}
         >
