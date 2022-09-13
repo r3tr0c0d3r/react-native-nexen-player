@@ -40,7 +40,7 @@ import { getAlphaColor } from '../utils/ColorUtil';
 import TimeTagView, { TimeTagViewTheme } from './TimeTagView';
 import VolumeTagView, { VolumeTagViewTheme } from './VolumeTagView';
 import type { NexenTheme } from '../utils/Theme';
-import type { EdgeInsets, LayoutMode } from './NexenPlayer';
+import type { EdgeInsets, LayoutMode, PlayerConfig } from './NexenPlayer';
 
 type FooterControlProps = {
   opacity: Animated.Value;
@@ -48,7 +48,7 @@ type FooterControlProps = {
   paused: boolean;
   isSeekable?: React.MutableRefObject<boolean>;
   isVolumeSeekable?: React.MutableRefObject<boolean>;
-  fullScreen: boolean;
+  fullScreen?: boolean;
   muted: boolean;
   locked: boolean;
   trackTime: number;
@@ -57,15 +57,17 @@ type FooterControlProps = {
   volume: number;
   totalVolume: number;
   insets?: EdgeInsets;
+  playerConfig?: PlayerConfig;
   nexenTheme?: NexenTheme;
-  layoutMode?: LayoutMode;
-  disableSkip?: boolean;
-  disableStop?: boolean;
-  disableRatio?: boolean;
-  disableVolume?: boolean;
-  disableSubtitle?: boolean;
-  disableFullscreen?: boolean;
-  disablePlaylist?: boolean;
+  // layoutMode?: LayoutMode;
+  // disableSkip?: boolean;
+  // disableStop?: boolean;
+  // disableRatio?: boolean;
+  // disableVolume?: boolean;
+  // disableSubtitle?: boolean;
+  // disableFullscreen?: boolean;
+  // disablePlaylist?: boolean;
+  disablePlaylistAndSkip?: boolean;
   onPlayPress?: () => void;
   onFullScreenPress?: () => void;
   onVolumePress?: () => void;
@@ -114,9 +116,11 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
       fullScreen,
       muted,
       locked,
-      nexenTheme,
-      layoutMode,
       insets,
+      playerConfig,
+      nexenTheme,
+      // layoutMode,
+      
       trackTime,
       cachedTrackTime,
       totalTrackTime,
@@ -124,14 +128,15 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
       totalVolume,
       isSeekable,
       isVolumeSeekable,
-      disableStop,
-      disableVolume,
-      disableSkip,
-      disableRatio,
-      disableSubtitle,
-      disableFullscreen,
-      disablePlaylist,
+      // disableStop,
+      // disableVolume,
+      // disableSkip,
+      // disableRatio,
+      // disableSubtitle,
+      // disableFullscreen,
+      // disablePlaylist,
       // disableLargeMode,
+      disablePlaylistAndSkip,
       onPlayPress,
       onCcPress,
       onVideoListPress,
@@ -160,7 +165,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
     const isRTL = I18nManager.isRTL;
     const iconTagViewRef = React.useRef<IconTagViewRef>(null);
 
-    const ICON_SIZE_FACTOR = layoutMode === 'advanced' ? 1.8 : 1;
+    const ICON_SIZE_FACTOR = playerConfig?.layoutMode === 'advanced' ? 1.8 : 1;
     const ICON_SIZE = nexenTheme?.sizes?.primaryIconSize;
     const ICON_COLOR = nexenTheme?.colors?.primaryIconColor;
     const CONTAINER_VERTICAL_PADDING = fullScreen 
@@ -173,7 +178,9 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
     ? (insets?.left! + insets?.right!) / 2
     : nexenTheme?.sizes?.paddingHorizontal
     : nexenTheme?.sizes?.paddingHorizontal;
-    const TAG_VIEW_HEIGHT = nexenTheme?.tagView?.height;
+    const TAG_VIEW_HEIGHT = playerConfig?.layoutMode === 'advanced' 
+    ? nexenTheme?.tagView?.height! 
+    : nexenTheme?.tagView?.height! + 8;
 
     const CONTAINER_HEIGHT = locked
       ? ICON_SIZE! * ICON_SIZE_FACTOR +
@@ -187,7 +194,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
         CONTAINER_VERTICAL_PADDING!;
 
     // console.log(`FOOTER: HP: ${CONTAINER_HORIZONTAL_PADDING} VP: ${CONTAINER_VERTICAL_PADDING}`);
-
+    // console.log(`FOOTER: CONTAINER_HEIGHT: ${CONTAINER_HEIGHT} VP: ${CONTAINER_VERTICAL_PADDING}`);
     useImperativeHandle(ref, () => ({
       updateIconTagView: (newState: IconTagViewState) => {
         iconTagViewRef.current?.updateState(newState);
@@ -343,14 +350,14 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 <IconPause size={ICON_SIZE} color={ICON_COLOR} />
               )}
             </IconButton>
-            {!disableStop && (
+            {!playerConfig?.disableStop && (
               <IconButton onPress={onStopPress}>
                 <IconStop size={ICON_SIZE} color={ICON_COLOR} />
               </IconButton>
             )}
           </View>
           <View style={styles.iconButtonContainer}>
-            {!disableVolume && (
+            {!playerConfig?.disableVolume && (
               <IconButton onPress={onVolumePress}>
                 {muted ? (
                   <IconVolume size={ICON_SIZE} color={ICON_COLOR} />
@@ -359,7 +366,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 )}
               </IconButton>
             )}
-            {!disableFullscreen && (
+            {!playerConfig?.disableFullscreen && (
               <IconButton onPress={onFullScreenPress}>
                 {fullScreen ? (
                   <IconMinimize size={ICON_SIZE} color={ICON_COLOR} />
@@ -377,7 +384,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
       return (
         <>
           <View style={styles.iconButtonContainer}>
-            {!disableSkip && (
+            {!disablePlaylistAndSkip && !playerConfig?.disableSkip && (
               <IconButton
                 style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
                 onPress={onSkipBack}
@@ -395,13 +402,13 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 <IconPause size={ICON_SIZE} color={ICON_COLOR} />
               )}
             </IconButton>
-            {!disableStop && (
+            {!playerConfig?.disableStop && (
               <IconButton onPress={onStopPress}>
                 <IconStop size={ICON_SIZE} color={ICON_COLOR} />
               </IconButton>
             )}
 
-            {!disableSkip && (
+            {!disablePlaylistAndSkip && !playerConfig?.disableSkip && (
               <IconButton
                 style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
                 onPress={onSkipNext}
@@ -411,7 +418,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
             )}
           </View>
           <View style={styles.iconButtonContainer}>
-            {!disableVolume && (
+            {!playerConfig?.disableVolume && (
               <VolumeTagView
                 volume={volume}
                 totalVolume={totalVolume}
@@ -424,7 +431,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 onVolumePress={onVolumePress}
               />
             )}
-            {!disableFullscreen && (
+            {!playerConfig?.disableFullscreen && (
               <IconButton onPress={onFullScreenPress}>
                 {fullScreen ? (
                   <IconMinimize size={ICON_SIZE} color={ICON_COLOR} />
@@ -454,16 +461,16 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
               style={{ marginLeft: 12 }}
               theme={iconTagViewTheme}
             /> */}
-            {!disableRatio && !locked && (
+            {!playerConfig?.disableResizeMode && !locked && (
               <IconButton onPress={onAspectRatioPress}>
                 <IconAspectRatio size={ICON_SIZE} color={ICON_COLOR} />
               </IconButton>
             )}
-            {
+            {!disablePlaylistAndSkip && !playerConfig?.disablePlaylist && !locked && (
               <IconButton onPress={onVideoListPress}>
-                <IconFilm size={ICON_SIZE} color={ICON_COLOR} />
-              </IconButton>
-            }
+              <IconFilm size={ICON_SIZE} color={ICON_COLOR} />
+            </IconButton>
+            )}
           </View>
 
           <View
@@ -480,7 +487,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
               alignItems: 'center',
             }}
           >
-            {!disableSkip && (
+            {!disablePlaylistAndSkip && !playerConfig?.disableSkip && (
               <IconButton
                 style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
                 onPress={onSkipBack}
@@ -504,7 +511,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 />
               )}
             </IconButton>
-            {!disableSkip && (
+            {!disablePlaylistAndSkip && !playerConfig?.disableSkip && (
               <IconButton
                 style={{ transform: [{ scaleX: isRTL ? -1 : 1 }] }}
                 onPress={onSkipNext}
@@ -522,13 +529,13 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
               alignItems: 'center',
             }}
           >
-            {!disableSubtitle && (
+            {!playerConfig?.disableSubtitle && (
               <IconButton onPress={onCcPress}>
                 <IconSubtitle size={ICON_SIZE} color={ICON_COLOR} />
               </IconButton>
             )}
 
-            {!disableFullscreen && (
+            {!playerConfig?.disableFullscreen && (
               <IconButton onPress={onFullScreenPress}>
                 {fullScreen ? (
                   <IconMinimize size={ICON_SIZE} color={ICON_COLOR} />
@@ -609,9 +616,9 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
               </View>
             ) : (
               <View style={styles.unlockedViewContainer}>
-                {layoutMode === 'basic' && renderBasicLayout()}
-                {layoutMode === 'intermediate' && renderIntermediateLayout()}
-                {layoutMode === 'advanced' && renderAdvancedLayout()}
+                {playerConfig?.layoutMode === 'basic' && renderBasicLayout()}
+                {playerConfig?.layoutMode === 'intermediate' && renderIntermediateLayout()}
+                {playerConfig?.layoutMode === 'advanced' && renderAdvancedLayout()}
               </View>
             )}
           </View>

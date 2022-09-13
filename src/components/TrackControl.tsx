@@ -7,28 +7,35 @@ import {
 } from 'react-native';
 
 import type { NexenTheme } from '../utils/Theme';
-import DropDown, { DropDownItem } from './DropDown';
+import DropDown, { DropDownItem, DropDownTheme } from './DropDown';
 import GradientView from './GradientView';
 import ModalView from './ModalView';
 
 import { withAnimation } from '../hoc/withAnimation';
-import { EdgeInsets } from './NexenPlayer';
+import { AudioTrack, EdgeInsets, SelectedAudioTrack, SelectedTextTrack, TextTrack } from './NexenPlayer';
+import { getAlphaColor } from '../utils/ColorUtil';
 
 type TrackControlProps = {
-  fullScreen: boolean;
+  textTracks?: TextTrack[];
+  selectedTextTrack?: SelectedTextTrack;
+  audioTracks?: AudioTrack[];
+  selectedAudioTrack?: SelectedAudioTrack;
+  onTextTrackSelect?: (selectedTextTrack: SelectedTextTrack) => void;
+  onAudioTrackSelect?: (selectedAudioTrack: SelectedAudioTrack) => void;
+  fullScreen?: boolean;
   nexenTheme?: NexenTheme;
   insets?: EdgeInsets;
   style?: StyleProp<ViewStyle>;
 };
 
 const TrackControl = (props: TrackControlProps) => {
-  const { style, fullScreen, nexenTheme, insets } = props;
+  const { style, fullScreen, nexenTheme, insets, textTracks, selectedTextTrack, audioTracks, selectedAudioTrack, onTextTrackSelect, onAudioTrackSelect } = props;
   // const rtlMultiplier = React.useRef(1);
   // const isRTL = I18nManager.isRTL;
   // rtlMultiplier.current = isRTL ? -1 : 1;
 
   const hh = StyleSheet.flatten(style).height || 100;
-  console.log(`hh: ${hh}`);
+  // console.log(`hh: ${hh} textTracks: ${textTracks?.length} audioTracks: ${audioTracks?.length}`);
   const dropdownHeight = Number(hh) - 10 * 2 - 40;
 
   const CONTAINER_HORIZONTAL_PADDING = fullScreen 
@@ -39,7 +46,10 @@ const TrackControl = (props: TrackControlProps) => {
 
   // const selectRef = React.useRef<Select>(null);
   // const optionRef = React.useRef<OptionList>(null);
-  const [selected, setSelected] = React.useState<DropDownItem>();
+  const [textItems, setTextItems] = React.useState<DropDownItem[] | undefined>();
+  const [selectedTextItem, setSelectedTextItem] = React.useState<DropDownItem | undefined>();
+  const [audioItems, setAudioItems] = React.useState<DropDownItem[] | undefined>();
+  const [selectedAudioItem, setSelectedAudioItem] = React.useState<DropDownItem | undefined>();
   const data = [
     { label: 'One', value: '1' },
     { label: 'Two', value: '2' },
@@ -47,6 +57,33 @@ const TrackControl = (props: TrackControlProps) => {
     { label: 'Four', value: '4' },
     { label: 'Five', value: '5' },
   ];
+
+  const dropDownTheme = React.useMemo((): DropDownTheme => {
+    return {
+      font: nexenTheme?.fonts?.secondaryFont,
+      backgroundColor: nexenTheme?.dropdownMenu?.backgroundColor
+      || getAlphaColor(nexenTheme?.colors?.secondaryColor!, 0.1),
+      headerBackgroundColor: nexenTheme?.dropdownMenu?.headerBackgroundColor
+      || getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.7),
+      itemBackgroundColor: nexenTheme?.dropdownMenu?.itemBackgroundColor
+      || getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.3),
+      textColor: nexenTheme?.dropdownMenu?.textColor
+      || nexenTheme?.colors?.secondaryTextColor,
+      headerTextColor: nexenTheme?.dropdownMenu?.headerTextColor
+      || nexenTheme?.colors?.secondaryTextColor,
+      itemTextColor: nexenTheme?.dropdownMenu?.itemTextColor
+      || nexenTheme?.colors?.secondaryTextColor,
+      itemSelectedColor: nexenTheme?.dropdownMenu?.itemSelectedColor
+      || nexenTheme?.colors?.accentColor,
+      textSize: nexenTheme?.dropdownMenu?.textSize
+      || nexenTheme?.sizes?.secondaryTextSize,
+      headerTextSize: nexenTheme?.dropdownMenu?.headerTextSize
+      || nexenTheme?.sizes?.secondaryTextSize,
+      itemTextSize: nexenTheme?.dropdownMenu?.itemTextSize
+      || nexenTheme?.sizes?.secondaryTextSize,
+      cornerRadius: nexenTheme?.dropdownMenu?.cornerRadius,
+    };
+  }, [nexenTheme]);
 
   const containerStyle = {
     left: CONTAINER_HORIZONTAL_PADDING,
@@ -56,13 +93,52 @@ const TrackControl = (props: TrackControlProps) => {
     paddingVertical: 0,
   }
 
-  // const _getOptionList = () => {
-  //   return optionRef.current;
-  // };
+  const _onTextItemSelect = (item: DropDownItem) => {
+    const selectedTrack = {type: selectedTextTrack?.type || 'title', value: item.value}
+    onTextTrackSelect?.(selectedTrack);
+    setSelectedTextItem(item);
+  }
 
-  // const _canada = (province: string) => {
-  //   console.log(province);
-  // };
+  const _onAudioItemSelect = (item: DropDownItem) => {
+    const selectedTrack = {type: selectedAudioTrack?.type || 'title', value: item.value}
+    onAudioTrackSelect?.(selectedTrack);
+    setSelectedAudioItem(item);
+  }
+
+  React.useEffect(() => {
+    if (textTracks && textTracks.length > 0) {
+      const newItems: DropDownItem[] = [{label: 'None', value: 'none'}];
+      textTracks.forEach((item) => {
+        newItems.push({label: item.title, value: item.title});
+      });
+      setTextItems(newItems);
+    }
+    if (audioTracks && audioTracks.length > 0) {
+      const newItems: DropDownItem[] = [{label: 'None', value: 'none'}];
+      audioTracks.forEach((item) => {
+        newItems.push({label: item.title, value: item.title});
+      });
+      setAudioItems(newItems);
+    }
+
+  }, [textTracks, audioTracks])
+
+  React.useEffect(() => {
+    if (textTracks && selectedTextTrack) {
+      const selected = textTracks.find((item) => {
+        return item[selectedTextTrack.type] === selectedTextTrack.value
+      });
+      setSelectedTextItem({label: selected?.title || 'None', value: selected?.title || 'none'});
+    }
+
+    if (audioTracks && selectedAudioTrack) {
+      const selected = audioTracks.find((item) => {
+        return item[selectedAudioTrack.type] === selectedAudioTrack.value
+      });
+      setSelectedAudioItem({label: selected?.title || 'None', value: selected?.title || 'none'});
+    }
+    
+  }, [selectedTextTrack, selectedAudioTrack])
 
 
   return (
@@ -86,8 +162,10 @@ const TrackControl = (props: TrackControlProps) => {
           <DropDown
             height={dropdownHeight}
             label={'Text Track'}
-            data={data}
-            onSelect={setSelected}
+            items={textItems}
+            selectedItem={selectedTextItem}
+            onItemSelect={_onTextItemSelect}
+            theme={dropDownTheme}
           />
         </View>
 
@@ -108,8 +186,10 @@ const TrackControl = (props: TrackControlProps) => {
           <DropDown
             height={dropdownHeight}
             label={'Audio Track'}
-            data={data}
-            onSelect={setSelected}
+            items={audioItems}
+            selectedItem={selectedAudioItem}
+            onItemSelect={_onAudioItemSelect}
+            theme={dropDownTheme}
           />
         </View>
       </View>

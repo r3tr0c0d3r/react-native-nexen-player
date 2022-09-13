@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-		5E555C0D2413F4C50049A1A2 /* NexenPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* NexenPlayer.m */; };
-		F4FF95D7245B92E800C19C63 /*  NexenPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /*  NexenPlayer.swift */; };
-
+		14A3ABCB28CCB0DF00D6A49B /* NexenPlayerModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A3ABCA28CCB0DF00D6A49B /* NexenPlayerModule.m */; };
+		14A3ABCD28CCB10600D6A49B /* NexenPlayerModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A3ABCC28CCB10600D6A49B /* NexenPlayerModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,12 +24,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		134814201AA4EA6300B7C361 /* libNexenPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNexenPlayer.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
-		B3E7B5891CC2AC0600A0062D /* NexenPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NexenPlayer.m; sourceTree = "<group>"; };
-		F4FF95D5245B92E700C19C63 /* NexenPlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NexenPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
-		F4FF95D6245B92E800C19C63 /* NexenPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NexenPlayer.swift; sourceTree = "<group>"; };
-
+		134814201AA4EA6300B7C361 /* libNexenPlayerModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNexenPlayerModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		14A3ABCA28CCB0DF00D6A49B /* NexenPlayerModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NexenPlayerModule.m; sourceTree = "<group>"; };
+		14A3ABCC28CCB10600D6A49B /* NexenPlayerModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NexenPlayerModule.swift; sourceTree = "<group>"; };
+		F4FF95D5245B92E700C19C63 /* NexenPlayerModule-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NexenPlayerModule-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +44,7 @@
 		134814211AA4EA7D00B7C361 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				134814201AA4EA6300B7C361 /* libNexenPlayer.a */,
+				134814201AA4EA6300B7C361 /* libNexenPlayerModule.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,11 +52,9 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
-				F4FF95D6245B92E800C19C63 /* NexenPlayer.swift */,
-				B3E7B5891CC2AC0600A0062D /* NexenPlayer.m */,
-				F4FF95D5245B92E700C19C63 /* NexenPlayer-Bridging-Header.h */,
-
+				14A3ABCC28CCB10600D6A49B /* NexenPlayerModule.swift */,
+				14A3ABCA28CCB0DF00D6A49B /* NexenPlayerModule.m */,
+				F4FF95D5245B92E700C19C63 /* NexenPlayerModule-Bridging-Header.h */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,9 +62,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		58B511DA1A9E6C8500147676 /* NexenPlayer */ = {
+		58B511DA1A9E6C8500147676 /* NexenPlayerModule */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "NexenPlayer" */;
+			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "NexenPlayerModule" */;
 			buildPhases = (
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
@@ -80,9 +74,9 @@
 			);
 			dependencies = (
 			);
-			name = NexenPlayer;
+			name = NexenPlayerModule;
 			productName = RCTDataManager;
-			productReference = 134814201AA4EA6300B7C361 /* libNexenPlayer.a */;
+			productReference = 134814201AA4EA6300B7C361 /* libNexenPlayerModule.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -99,7 +93,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "NexenPlayer" */;
+			buildConfigurationList = 58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "NexenPlayerModule" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -112,7 +106,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				58B511DA1A9E6C8500147676 /* NexenPlayer */,
+				58B511DA1A9E6C8500147676 /* NexenPlayerModule */,
 			);
 		};
 /* End PBXProject section */
@@ -122,10 +116,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-				F4FF95D7245B92E800C19C63 /* NexenPlayer.swift in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* NexenPlayer.m in Sources */,
-
+				14A3ABCB28CCB0DF00D6A49B /* NexenPlayerModule.m in Sources */,
+				14A3ABCD28CCB10600D6A49B /* NexenPlayerModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,13 +228,11 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = NexenPlayer;
+				PRODUCT_NAME = NexenPlayerModule;
 				SKIP_INSTALL = YES;
-
-				SWIFT_OBJC_BRIDGING_HEADER = "NexenPlayer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "NexenPlayerModule-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Debug;
 		};
@@ -257,19 +247,17 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = NexenPlayer;
+				PRODUCT_NAME = NexenPlayerModule;
 				SKIP_INSTALL = YES;
-
-				SWIFT_OBJC_BRIDGING_HEADER = "NexenPlayer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "NexenPlayerModule-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "NexenPlayer" */ = {
+		58B511D61A9E6C8500147676 /* Build configuration list for PBXProject "NexenPlayerModule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58B511ED1A9E6C8500147676 /* Debug */,
@@ -278,7 +266,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "NexenPlayer" */ = {
+		58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "NexenPlayerModule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58B511F01A9E6C8500147676 /* Debug */,

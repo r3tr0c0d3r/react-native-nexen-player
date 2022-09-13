@@ -1,31 +1,68 @@
-import { StatusBar, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  StatusBar,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React from 'react';
-import NexenPlayer, { LayoutMode, NexenPlayerRef } from 'react-native-nexen-player';
-// import {
-//   useSafeAreaInsets,
-// } from 'react-native-safe-area-context';
+import NexenPlayer, {
+  LayoutMode,
+  SelectedTextTrack,
+  TextTrack,
+  NexenPlayerRef,
+  PlayerConfig,
+  PlayerSource,
+} from 'react-native-nexen-player';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Orientation, { OrientationType } from 'react-native-orientation-locker';
 
 import { data } from './data';
 import Button from './Button';
+import { TextTrackType } from 'react-native-video';
 
 type Props = {};
 
 const Player = (props: Props) => {
-  const [mode, setMode] = React.useState<LayoutMode>('basic');
+  // const [mode, setMode] = React.useState<LayoutMode>('basic');
   const [paused, setPaused] = React.useState(true);
   const [isFullScreen, setIsFullScreen] = React.useState<boolean>(false);
   const [playlist, setPlaylist] = React.useState(false);
 
+  const [source, setSource] = React.useState<PlayerSource>({
+    source: {
+      uri: 'https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd',
+    },
+    // source: require('../assets/videos/Street_Fighter_V_Stop_Motion.mp4'),
+    
+    poster: 'https://img.youtube.com/vi/KrmxD8didgQ/0.jpg',
+    title: 'Ryu\'s Hurricane Kick and Hadoken',
+    
+  });
+  const [config, setConfig] = React.useState<PlayerConfig>({
+    posterResizeMode: 'cover',
+    layoutMode: 'basic',
+});
+
   const playerRef = React.useRef<NexenPlayerRef>(null);
 
-  const onPress = () => {
-    if (mode === 'basic') {
-      setMode('intermediate');
-    } else if (mode === 'intermediate') {
-      setMode('advanced');
+  const updateLayoutMode = (mode: LayoutMode) => {
+    setConfig((prevState) => {
+      return {
+        ...prevState,
+        layoutMode: mode,
+      }
+    });
+  }
+
+  const onModePress = () => {
+    if (config.layoutMode === 'basic') {
+      updateLayoutMode('intermediate')
+    } else if (config.layoutMode === 'intermediate') {
+      updateLayoutMode('advanced')
     } else {
-      setMode('basic');
+      updateLayoutMode('basic')
     }
   };
 
@@ -38,11 +75,11 @@ const Player = (props: Props) => {
     setPaused((prevState) => !prevState);
   };
   const onFullScreenModeUpdate = async (fullScreen: boolean) => {
-    console.log(`Player: onFullScreenModeUpdate:${fullScreen}`)
+    console.log(`Player: onFullScreenModeUpdate:${fullScreen}`);
     if (fullScreen) {
-      Orientation.lockToLandscape();
+      // Orientation.lockToLandscape();
     } else {
-      Orientation.lockToPortrait();
+      // Orientation.lockToPortrait();
     }
     setIsFullScreen(fullScreen);
   };
@@ -50,25 +87,76 @@ const Player = (props: Props) => {
   const onBackPressed = () => {};
 
   const onPlay = () => {
+    console.log(`Player: onPlay`);
     setPaused(false);
   };
 
   const onPaused = () => {
+    console.log(`Player: onPlay`);
     setPaused(true);
   };
 
+  const setSubtitle = () => {
+    const cc: TextTrack[] = [
+      {
+        title: 'English CC',
+        language: 'en',
+        type: TextTrackType.VTT, // "text/vtt"
+        uri: 'https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt',
+      },
+      {
+        title: 'Spanish Subtitles',
+        language: 'es',
+        type: TextTrackType.SRT, // "application/x-subrip"
+        uri: 'https://durian.blender.org/wp-content/content/subtitles/sintel_es.srt',
+      },
+    ];
+
+    const scc: SelectedTextTrack = {
+      type: 'title',
+      value: 'English CC',
+    };
+
+    setSource((prevState) => {
+      return {
+        ...prevState,
+        textTracks: cc,
+        selectedTextTrack: scc,
+      }
+    });
+
+    // setTextTracks(cc);
+    // setSelectedTextTrack(scc);
+  };
+
   const onChangeIndexPress = () => {
-    playerRef.current?.setActiveIndex(9);
+    // playerRef.current?.setPlaylistIndex(9);
   };
   const onReloadPress = () => {
-    playerRef.current?.reload();
+    // playerRef.current?.reload();
+    setSubtitle();
   };
 
   const onPlaylistSet = () => {
     if (playlist) {
-      playerRef.current?.setPlaylist([]);
+      // playerRef.current?.setPlaylist([]);
+      setSource((prevState) => {
+        return {
+          ...prevState,
+          playlist: undefined,
+        }
+      });
     } else {
-      playerRef.current?.setPlaylist(data, 4);
+      // playerRef.current?.setPlaylist(data, 4);
+      setSource((prevState) => {
+        return {
+          ...prevState,
+          playlist: {
+            items: data,
+            activeIndex: 9,
+          },
+        }
+      });
     }
     setPlaylist((prevState) => !prevState);
   };
@@ -78,8 +166,8 @@ const Player = (props: Props) => {
     // playerRef.current?.setActiveIndex(4);
   }, []);
 
-  // const edge = useSafeAreaInsets();
-  // console.log(`PlayerEdgeInsets: ${JSON.stringify(edge)}`);
+  const edgeinsets = useSafeAreaInsets();
+  console.log(`PlayerEdgeInsets: ${JSON.stringify(edgeinsets)}`);
 
   const viewStyle: StyleProp<ViewStyle> = isFullScreen
     ? {
@@ -99,32 +187,18 @@ const Player = (props: Props) => {
         <NexenPlayer
           ref={playerRef}
           style={styles.player}
-          source={require('../assets/videos/Street_Fighter_V_Stop_Motion.mp4')}
-          // source={{
-          //   uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4',
-          // }}
-          // poster={
-          //   'https://www.carage.net/media/halfhd/carage_fahrzeuge_square_8.jpg'
-          // }
-          // posterStyle={'cover'}
-          title={"Ryu's Hurricane Kick and Hadoken"}
-          layoutMode={mode}
-          // controlHideMode={'auto'}
-          // disableStop={true}
-          // disableSubtitle={true}
-          // insets={edge}
-          theme={
-            {
-              // colors: {
-              //   primaryIconColor: fullScreen ? 'white' : 'blue',
-              // },
-              fonts: {
-                primaryFont: 'Montserrat-Medium',
-                secondaryFont: 'Montserrat-Regular',
-              }
-            }
-          }
-          // pause={paused}
+          playerSource={source}
+          playerConfig={config}
+          insets={edgeinsets}
+          theme={{
+            // colors: {
+            //   primaryIconColor: fullScreen ? 'white' : 'blue',
+            // },
+            fonts: {
+              primaryFont: 'Montserrat-Medium',
+              secondaryFont: 'Montserrat-Regular',
+            },
+          }}
           onPlay={onPlay}
           onPause={onPaused}
           onBackPress={onBackPressed}
@@ -132,7 +206,7 @@ const Player = (props: Props) => {
         />
 
         <View style={styles.buttonContainer}>
-          <Button onPress={onPress} title={`Change Mode: ${mode}`} />
+          <Button onPress={onModePress} title={`Change Mode: ${config.layoutMode}`} />
           <View style={{ marginTop: 8 }} />
           <Button onPress={onPausePress} title={paused ? 'Play' : 'Pause'} />
           {/* <View style={{ marginTop: 8 }} />

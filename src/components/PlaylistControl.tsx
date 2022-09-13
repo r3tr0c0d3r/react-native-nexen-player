@@ -18,7 +18,7 @@ import ModalView from './ModalView';
 import { withAnimation } from '../hoc/withAnimation';
 
 type PlaylistControlProps = {
-  fullScreen: boolean;
+  fullScreen?: boolean;
   playlist?: PlaylistItem[];
   playlistIndex?: number;
   nexenTheme?: NexenTheme;

@@ -4,18 +4,18 @@ import {
   View,
 } from 'react-native';
 
-// import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Player from './Player';
 
 export default function App() {
   
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider style={styles.container}>
       <View style={styles.topBar} />
       <Player />
       <View style={styles.bottomBar} />
-    </View>
+    </SafeAreaProvider>
   );
 }
 

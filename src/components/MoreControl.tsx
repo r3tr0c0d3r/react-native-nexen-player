@@ -21,6 +21,7 @@ import {
 import GradientView from './GradientView';
 import { EdgeInsets } from './NexenPlayer';
 import { withAnimation } from '../hoc/withAnimation';
+import ModalView from './ModalView';
 
 export type MoreItem = {
   id: string;
@@ -30,7 +31,7 @@ export type MoreItem = {
 };
 
 type MoreControlProps = {
-  fullScreen: boolean;
+  fullScreen?: boolean;
   nexenTheme?: NexenTheme;
   insets?: EdgeInsets;
   style?: StyleProp<ViewStyle>;
@@ -45,7 +46,8 @@ const MoreControl = (props: MoreControlProps) => {
     nexenTheme,
     onItemPress,
   } = props;
-  const ICON_SIZE = fullScreen ? 24 : 20;
+  const [moreItems, setMoreItems] = React.useState<MoreItem[]>([]);
+  const ICON_SIZE = nexenTheme?.sizes?.secondaryIconSize;
   const ICON_COLOR = nexenTheme?.colors?.secondaryIconColor
   const TEXT_COLOR = nexenTheme?.colors?.secondaryTextColor
   
@@ -55,28 +57,37 @@ const MoreControl = (props: MoreControlProps) => {
     : nexenTheme?.sizes?.paddingVertical
     : nexenTheme?.sizes?.paddingVertical;
 
-  const MORE_OPTION_DATA: MoreItem[] = [
-    {
-      id: 'lock',
-      icon: <IconUnlock size={ICON_SIZE} color={ICON_COLOR} />,
-      label: 'Lock',
-    },
-    {
-      id: 'speed',
-      icon: <IconZap size={ICON_SIZE} color={ICON_COLOR} />,
-      label: 'Playback Speed',
-    },
-    {
-      id: 'repeat',
-      icon: <IconRepeat size={ICON_SIZE} color={ICON_COLOR} />,
-      label: 'Repeat Mode',
-    },
-    {
-      id: 'info',
-      icon: <IconInfo size={ICON_SIZE} color={ICON_COLOR} />,
-      label: 'Video Info',
-    },
-  ];
+    React.useEffect(() => {
+      const MORE_ITEMS = [
+        {
+          id: 'lock',
+          icon: <IconUnlock size={ICON_SIZE} color={ICON_COLOR} />,
+          label: 'Lock',
+        },
+        {
+          id: 'speed',
+          icon: <IconZap size={ICON_SIZE} color={ICON_COLOR} />,
+          label: 'Playback Speed',
+        },
+        {
+          id: 'repeat',
+          icon: <IconRepeat size={ICON_SIZE} color={ICON_COLOR} />,
+          label: 'Repeat Mode',
+        },
+        // {
+        //   id: 'reload',
+        //   icon: <IconReload size={ICON_SIZE} color={ICON_COLOR} />,
+        //   label: 'Reload Video',
+        // },
+        // {
+        //   id: 'info',
+        //   icon: <IconInfo size={ICON_SIZE} color={ICON_COLOR} />,
+        //   label: 'Video Info',
+        // },
+      ];
+  
+      setMoreItems(MORE_ITEMS);
+    }, []);
 
   const containerStyle = {
     top: CONTAINER_VERTICAL_PADDING,
@@ -105,7 +116,7 @@ const MoreControl = (props: MoreControlProps) => {
     );
   };
   return (
-    <Animated.View style={[styles.container, style, containerStyle]}>
+    <ModalView style={[styles.container, style, containerStyle]}>
       <GradientView
         style={{
           height: '100%',
@@ -120,11 +131,11 @@ const MoreControl = (props: MoreControlProps) => {
       <TouchableOpacity style={styles.listContainer} activeOpacity={1}>
         <FlatList
           keyExtractor={(item: MoreItem) => item.id}
-          data={MORE_OPTION_DATA}
+          data={moreItems}
           renderItem={renderMoreItem}
         />
       </TouchableOpacity>
-    </Animated.View>
+    </ModalView>
   );
 };
 
@@ -136,12 +147,6 @@ MoreControl.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 8,
-    right: 0,
-    bottom: 8,
-    minWidth: 168,
-    maxWidth: 220,
     zIndex: 110,
     overflow: 'hidden',
   },
@@ -158,11 +163,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
     paddingVertical: 10,
   },
   itemText: {
     fontSize: 15,
-    marginLeft: 8,
+    marginLeft: 16,
   },
 });

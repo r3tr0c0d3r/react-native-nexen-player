@@ -10,6 +10,7 @@ export interface NexenTheme {
     lockButton?: LockButtonTheme;
     tagView?: TagViewTheme;
     tipView?: TipViewTheme;
+    dropdownMenu?: DropdownMenuTheme;
     colors?: ColorTheme;
     icons?: {};
     fonts?: FontTheme;
@@ -186,7 +187,7 @@ export interface MiniSeekBarTheme {
 
 export const DefaultMiniSeekBarTheme: MiniSeekBarTheme = {
     barColor: 'rgba(250,80,5,0.6)',
-    underlayColor: 'rgba(10,10,10,0.3)',
+    underlayColor: 'rgba(250,250,250,0.3)',
     thumbColor: '#fafafa',
 
     trackHeight: 2,
@@ -252,6 +253,26 @@ export const DefaultTipViewTheme: TipViewTheme = {
     textSize: 18,
 }
 
+export interface DropdownMenuTheme {
+    backgroundColor?: ColorValue;
+    headerBackgroundColor?: ColorValue;
+    itemBackgroundColor?: ColorValue;
+    textColor?: ColorValue;
+    headerTextColor?: ColorValue;
+    itemTextColor?: ColorValue;
+    itemSelectedColor?: ColorValue;
+
+    textSize?: number;
+    headerTextSize?: number;
+    itemTextSize?: number;
+    cornerRadius?: number;
+}
+
+export const DefaultDropdownMenuTheme: DropdownMenuTheme = {
+    textSize: 18,
+    cornerRadius: 10,
+}
+
 export const DefaultTheme: NexenTheme = {
     trackSeekBar: {
         ...DefaultTrackSeekBarTheme
@@ -270,6 +291,9 @@ export const DefaultTheme: NexenTheme = {
     },
     tagView: {
         ...DefaultTagViewTheme
+    },
+    dropdownMenu: {
+        ...DefaultDropdownMenuTheme
     },
     colors: {
         ...DefaultColorsTheme
