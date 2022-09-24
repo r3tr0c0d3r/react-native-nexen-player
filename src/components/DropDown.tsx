@@ -43,7 +43,6 @@ const DropDown = (props: DropDownProps) => {
     theme,
     onItemSelect,
   } = props;
-  // console.log(`DropDown:: height:${height}`);
   const dropdownRef = React.useRef<TouchableOpacity>(null);
   const containerHeight = React.useRef(new Animated.Value(0)).current;
   const opacityAnim = containerHeight.interpolate({
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
     color: '#fafafa',
   },
   icon: {
-    // margin: 10,
+    
   },
   dropdown: {
     ...StyleSheet.absoluteFillObject,

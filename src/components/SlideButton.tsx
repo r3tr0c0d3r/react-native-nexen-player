@@ -12,7 +12,6 @@ import {
 
 import { IconLock } from '../assets/icons';
 import { boundPosition } from '../utils/MathUtil';
-import { getAlphaColor } from '../utils/ColorUtil';
 import type { LockButtonTheme } from '../utils/Theme';
 
 export interface SlideButtonTheme extends LockButtonTheme {
@@ -39,13 +38,8 @@ const SlideButton = (props: SlideButtonProps) => {
   const {
     title,
     width,
-    // height,
-    // borderRadius: br,
-    // thumbWidth: tw,
     completeThreshold,
-    // iconSize,
     disabled,
-    // padding,
     reverseSlideEnabled,
     autoReset,
     autoResetDelay,
@@ -70,22 +64,15 @@ const SlideButton = (props: SlideButtonProps) => {
   const isRTL = I18nManager.isRTL;
   const rtlMultiplier = isRTL ? -1 : 1;
   let height = theme?.thumbWidth! + theme?.padding! * 2;
-  // let thumbWidth = (theme?.thumbWidth ) - theme?.padding! * 2;
   let borderRadius = (height! / 2);
   let childHeight = theme?.thumbHeight;
   const childRadius = theme?.thumbCornerRadius;
-
-  // console.log(`thumbWidth: ${thumbWidth} childHeight: ${childHeight} childRadius: ${childRadius}`)
-
-  
 
   const onLayoutChange = async (e: LayoutChangeEvent) => {
     const { width, height } = e.nativeEvent.layout;
     const { width: w, height: h } = dimensions;
     if (w !== width || h !== height) {
       setDimensions({ width, height });
-      //   slideDistance.current = (width - padding! * 2 - thumbWidth) * rtlMultiplier;
-      //   slideThreshold.current = slideDistance.current * (completeThreshold! / 100);
     }
   };
 
@@ -93,9 +80,6 @@ const SlideButton = (props: SlideButtonProps) => {
     slideDistance.current =
       (dimensions.width - theme?.padding! * 2 - theme?.thumbWidth!) * rtlMultiplier;
     slideThreshold.current = slideDistance.current * (completeThreshold! / 100);
-    console.log(
-      `slideDistance: ${slideDistance.current} slideThreshold: ${slideThreshold.current}`
-    );
   }, [dimensions]);
 
   React.useEffect(() => {
@@ -143,7 +127,6 @@ const SlideButton = (props: SlideButtonProps) => {
   };
 
   const handleComplete = (reached: boolean) => {
-    console.log(`handleComplete: ${reached}`);
     if (reached) {
       onReachedToEnd && onReachedToEnd();
       if (autoReset) {
@@ -176,9 +159,6 @@ const SlideButton = (props: SlideButtonProps) => {
         e: GestureResponderEvent,
         gestureState: PanResponderGestureState
       ) => {
-        // console.log(
-        //   `SlideButton:panResponder:: handlePanResponderGrant:locationX: ${e.nativeEvent.locationX} pageX: ${e.nativeEvent.pageX} moveX: ${gestureState.moveX} dx: ${gestureState.dx}`,
-        // );
         if (gestureDisabled.current) {
           return;
         }
@@ -191,17 +171,12 @@ const SlideButton = (props: SlideButtonProps) => {
         if (gestureDisabled.current) {
           return;
         }
-        // console.log(`panResponder:: handlePanResponderMove:: locationX: ${e.nativeEvent.locationX} dx: ${gestureState.dx}`);
         if (dx.current != gestureState.dx) {
-          // console.log(
-          //     `SlideButton:panResponder:: onPanResponderMove:locationX: ${e.nativeEvent.locationX} pageX: ${e.nativeEvent.pageX} moveX: ${gestureState.moveX} dx: ${gestureState.dx}`,
-          //   );
           dx.current = gestureState.dx;
           const position = boundPosition(
             locationX.current + dx.current,
             slideDistance.current
           );
-          // console.log(`SlideButton:panResponder:: handlePanResponderMove:: position: ${position} contextX:${locationX.current}`);
           thumbPosition.setValue(position);
           underLayWidth.setValue(position * rtlMultiplier + theme?.thumbWidth!);
         }
@@ -210,17 +185,11 @@ const SlideButton = (props: SlideButtonProps) => {
         e: GestureResponderEvent,
         gestureState: PanResponderGestureState
       ) => {
-        // console.log(
-        //   `SlideButton:panResponder:: handlePanResponderRelease:: locationX: ${e.nativeEvent.locationX} dx: ${gestureState.dx}`,
-        // );
         if (gestureDisabled.current) {
           return;
         }
         locationX.current = locationX.current + dx.current;
         onSlideEnd && onSlideEnd();
-        // console.log(
-        //   `SlideButton:panResponder:: handlePanResponderRelease:: locationX: ${locationX.current} isRTL: ${isRTL}`
-        // );
         if (isRTL) {
           if (locationX.current > slideThreshold.current) {
             if (locationX.current === 0) {
@@ -263,9 +232,6 @@ const SlideButton = (props: SlideButtonProps) => {
         e: GestureResponderEvent,
         gestureState: PanResponderGestureState
       ) => {
-        // console.log(
-        //   `SlideButton:panResponder:: handlePanResponderTerminate:: locationX: ${e.nativeEvent.locationX} dx: ${gestureState.dx}`,
-        // );
       },
     })
   );
@@ -359,8 +325,6 @@ export default SlideButton;
 
 SlideButton.defaultProps = {
   width: '100%',
-  // height: 40,
-  // borderRadius: 20,
   padding: 0,
   title: 'Slide to unlock',
   completeThreshold: 60,
@@ -369,13 +333,6 @@ SlideButton.defaultProps = {
   reverseSlideEnabled: true,
   autoReset: false,
   autoResetDelay: 1000,
-  // theme: {
-  //   containerColor: DefaultTheme.slideButton.containerColor,
-  //   underlayColor: DefaultTheme.slideButton.underlayColor,
-  //   thumbColor: DefaultTheme.slideButton.thumbColor,
-  //   thumbIconColor: DefaultTheme.slideButton.thumbIconColor,
-  //   textColor: DefaultTheme.slideButton.textColor,
-  // },
   onSlideStart: () => {},
   onSlideEnd: () => {},
   onReachedToStart: () => {},
@@ -387,24 +344,11 @@ const styles = StyleSheet.create({
     width: '100%',
     minWidth: 140,
     maxWidth: 220,
-    // height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
-    // borderRadius: 20,
-    // marginVertical: 10,
-    // backgroundColor: Theme.colors.slideButtonContainer,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 1,
-    // },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 1.41,
-    // elevation: 2,
   },
   underlayContainer: {
     position: 'absolute',
-    // backgroundColor: Theme.colors.slideButtonUnderlay,
   },
   titleContainer: {
     justifyContent: 'center',
@@ -415,13 +359,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     maxWidth: '60%',
     textAlign: 'center',
-    // color: '#fafafa',
   },
   thumbContainer: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: Theme.colors.slideButtonThumb,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

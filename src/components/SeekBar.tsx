@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Animated,
-  ColorValue,
   GestureResponderEvent,
   I18nManager,
   LayoutChangeEvent,
@@ -278,13 +277,11 @@ const SeekBar = (props: SeekBarProps) => {
       {/* Progress Bar*/}
       <Animated.View
         style={[styles.seekBar, seekBarStyle]}
-        // pointerEvents="none"
       />
       {/* Cache Bar*/}
       {!disableCachedTrack && (
         <Animated.View
           style={[styles.cachedBar, cachedBarStyle]}
-          // pointerEvents="none"
         />
       )}
       {/* Seek Bar Thumb */}

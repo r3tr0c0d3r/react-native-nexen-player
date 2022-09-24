@@ -1,11 +1,9 @@
 import React from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-
 import type { NexenTheme } from '../utils/Theme';
 import DropDown, { DropDownItem, DropDownTheme } from './DropDown';
 import GradientView from './GradientView';
 import ModalView from './ModalView';
-
 import { withAnimation } from '../hoc/withAnimation';
 import {
   AudioTrack,
@@ -21,12 +19,12 @@ type TrackControlProps = {
   selectedTextTrack?: SelectedTextTrack;
   audioTracks?: AudioTrack[];
   selectedAudioTrack?: SelectedAudioTrack;
-  onTextTrackSelect?: (selectedTextTrack: SelectedTextTrack) => void;
-  onAudioTrackSelect?: (selectedAudioTrack: SelectedAudioTrack) => void;
   fullScreen?: boolean;
   nexenTheme?: NexenTheme;
   insets?: EdgeInsets;
   style?: StyleProp<ViewStyle>;
+  onTextTrackSelect?: (selectedTextTrack: SelectedTextTrack) => void;
+  onAudioTrackSelect?: (selectedAudioTrack: SelectedAudioTrack) => void;
 };
 
 const TrackControl = (props: TrackControlProps) => {
@@ -42,13 +40,8 @@ const TrackControl = (props: TrackControlProps) => {
     onTextTrackSelect,
     onAudioTrackSelect,
   } = props;
-  // const rtlMultiplier = React.useRef(1);
-  // const isRTL = I18nManager.isRTL;
-  // rtlMultiplier.current = isRTL ? -1 : 1;
-
-  const hh = StyleSheet.flatten(style).height || 100;
-  // console.log(`hh: ${hh} textTracks: ${textTracks?.length} audioTracks: ${audioTracks?.length}`);
-  const dropdownHeight = Number(hh) - 10 * 2 - 40;
+  const styleHeight = StyleSheet.flatten(style).height || 100;
+  const dropdownHeight = Number(styleHeight) - 10 * 2 - 40;
 
   const CONTAINER_HORIZONTAL_PADDING = fullScreen
     ? (insets?.left! + insets?.right!) / 2 > 0
@@ -56,8 +49,6 @@ const TrackControl = (props: TrackControlProps) => {
       : 8
     : 8;
 
-  // const selectRef = React.useRef<Select>(null);
-  // const optionRef = React.useRef<OptionList>(null);
   const [textItems, setTextItems] = React.useState<
     DropDownItem[] | undefined
   >();
@@ -220,14 +211,6 @@ const TrackControl = (props: TrackControlProps) => {
           />
         </View>
 
-        {/* <View
-          style={{
-            width: 2,
-            height: '100%',
-            backgroundColor: 'rgba(10,10,10,0.5)',
-          }}
-        /> */}
-
         <View
           style={{
             flex: 1,
@@ -252,12 +235,6 @@ export default withAnimation(TrackControl);
 
 const styles = StyleSheet.create({
   container: {
-    // position: 'absolute',
-    // left: 8,
-    // right: 8,
-    // bottom: 0,
-    // minHeight: 100,
-    // maxHeight: 200,
     overflow: 'hidden',
     zIndex: 110,
   },

@@ -45,8 +45,7 @@
   },
   "homepage": "https://github.com/r3tr0c0d3r/react-native-nexen-player#readme",
   "publishConfig": {
-    "zzz": "https://registry.npmjs.org/",
-    "registry": "http://localhost:4873/"
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",

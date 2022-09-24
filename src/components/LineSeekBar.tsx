@@ -21,7 +21,6 @@ type LineSeekBarProps = {
 };
 
 const LineSeekBar = (props: LineSeekBarProps) => {
-  // console.log(`LineSeekBar:: ${props.width}`)
   const { trackTime, totalTrackTime, layoutWidth, theme } = props;
   const isRTL = I18nManager.isRTL;
   const rtlMultiplier = isRTL ? -1 : 1;

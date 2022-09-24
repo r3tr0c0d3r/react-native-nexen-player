@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  Animated,
   FlatList,
-  GestureResponderEvent,
   ListRenderItemInfo,
   StyleProp,
   StyleSheet,
@@ -27,7 +25,6 @@ export type MoreItem = {
   id: string;
   icon: React.ReactNode;
   label: string;
-  // onPress: () => void;
 };
 
 type MoreControlProps = {

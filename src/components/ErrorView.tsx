@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { IconXCircle } from '../assets/icons';
 import ModalView from './ModalView';
 import type { TipViewTheme } from './TipView';
 
 export interface ErrorViewTheme extends TipViewTheme {
-  // font?: string;
+  
 }
 type ErrorViewProps = {
     theme?: ErrorViewTheme;

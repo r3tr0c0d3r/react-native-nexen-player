@@ -1,6 +1,6 @@
 import React, { useImperativeHandle } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import type { NexenTheme, TagViewTheme } from '../utils/Theme';
+import type { TagViewTheme } from '../utils/Theme';
 
 import {
   IconRepeat,
@@ -14,8 +14,6 @@ export interface IconTagViewTheme extends TagViewTheme {
 }
 
 type IconTagViewProps = {
-  // fullScreen: boolean;
-  // disableLargeMode?: boolean;
   theme?: IconTagViewTheme;
   style?: StyleProp<ViewStyle>;
 };

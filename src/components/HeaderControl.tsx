@@ -15,7 +15,7 @@ import {
 import IconButton from './IconButton';
 import GradientView from './GradientView';
 import type { NexenTheme } from '../utils/Theme';
-import type { EdgeInsets, LayoutMode, NexenConfig } from './NexenPlayer';
+import type { EdgeInsets, NexenConfig } from './NexenPlayer';
 import IconTagView, {
   IconTagViewRef,
   IconTagViewState,
@@ -33,13 +33,9 @@ type HeaderControlProps = {
   marginTop: Animated.Value;
   fullScreen?: boolean;
   locked: boolean;
-  // disableBack?: boolean;
-  // disableRatio?: boolean;
-  // disableMore?: boolean;
   insets?: EdgeInsets;
   playerConfig?: NexenConfig;
   nexenTheme?: NexenTheme;
-  // layoutMode?: LayoutMode;
   onBackPress?: () => void;
   onAspectRatioPress?: () => void;
   onMorePress?: () => void;
@@ -47,20 +43,15 @@ type HeaderControlProps = {
 
 const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
   (props, ref) => {
-    // console.log(`HeaderControl:: renders`);
     const {
       title,
       opacity,
       marginTop,
       fullScreen,
       locked,
-      // disableBack,
-      // disableRatio,
-      // disableMore,
       insets,
       playerConfig,
       nexenTheme,
-      // layoutMode,
       onBackPress,
       onAspectRatioPress,
       onMorePress,
@@ -88,7 +79,6 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
       10 * 2 +
       16 +
       CONTAINER_VERTICAL_PADDING!;
-    // console.log(`CONTROL_HEIGHT_HEADER: ${CONTAINER_HEIGHT} CONTAINER_VERTICAL_PADDING: ${CONTAINER_VERTICAL_PADDING}`);
     const isRTL = I18nManager.isRTL;
 
     useImperativeHandle(ref, () => ({
@@ -177,7 +167,6 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
 
                 <Text
                   style={[styles.titleText, titleTextStyle]}
-                  // adjustsFontSizeToFit={true}
                   numberOfLines={2}
                 >
                   {title?.toUpperCase()}
@@ -214,9 +203,7 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
 export default React.memo(HeaderControl);
 
 HeaderControl.defaultProps = {
-  // disableBack: false,
-  // disableRatio: false,
-  // disableMore: false,
+  
 };
 
 const styles = StyleSheet.create({
@@ -228,7 +215,6 @@ const styles = StyleSheet.create({
     height: 56,
     minHeight: 56,
     zIndex: 100,
-    // backgroundColor: 'pink',
   },
   innerContainer: {
     position: 'absolute',
@@ -236,14 +222,10 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    // paddingTop: 8,
-    // backgroundColor: 'red'
   },
   iconButtonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // flexShrink: 1,
-    // backgroundColor: 'green',
   },
   textContainer: {},
   titleText: {

@@ -13,8 +13,6 @@ import type { VerticalSeekBarTheme } from '../utils/Theme';
 import ModalView from './ModalView';
 import { Dimension } from './NexenPlayer';
 import type { TipViewTheme } from './TipView';
-
-
 export interface SeekBarTipViewTheme extends VerticalSeekBarTheme, TipViewTheme {
   
 }
@@ -38,11 +36,7 @@ type SeekBarTipViewState = {
   icon?: JSX.Element;
 };
 const SeekBarTipView = React.forwardRef<SeekBarTipViewRef, SeekBarTipViewProps>((props, ref) => {
-  // console.log(`SeekBarTipView: renders`)
   const {dimension, barHeight, heightPercentage, icon, parentStyle, style, theme} = props;
-  // React.useEffect(() => {
-  //   console.log(`SeekBarTipView theme:: ${JSON.stringify(theme)}`);
-  // }, [])
 
   const [state, setState] = React.useState<SeekBarTipViewState>({
     showTip: false,

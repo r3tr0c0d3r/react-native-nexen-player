@@ -12,7 +12,6 @@ export interface TipViewTheme {
 }
 
 type TipViewProps = {
-  // children?: React.ReactNode;
   theme?: TipViewTheme;
   style?: StyleProp<ViewStyle>;
 };
@@ -27,7 +26,6 @@ type TipViewState = {
 };
 export type TipViewRef = {
   updateState: (newState: TipViewState) => void;
-  // updateText: (text: string) => void;
 };
 
 const TipView = React.forwardRef<TipViewRef, TipViewProps>((props, ref) => {
@@ -46,9 +44,6 @@ const TipView = React.forwardRef<TipViewRef, TipViewProps>((props, ref) => {
     updateState: (newState: TipViewState) => {
       setState({...state, ...newState});
     },
-    // updateText: (text: string) => {
-    //   setNativeProps({text})
-    // },
   }));
 
   const textStyle = {
@@ -58,7 +53,6 @@ const TipView = React.forwardRef<TipViewRef, TipViewProps>((props, ref) => {
   }
 
   React.useEffect(() => {
-    // console.log(`VideoScaleTip:useEffect: ${JSON.stringify(state)}`);
     if (state.autoHide) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -106,7 +100,5 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    // fontWeight: 'bold',
-    // color: DefaultTheme.common?.primaryTextColor,
   },
 });

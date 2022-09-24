@@ -3,7 +3,6 @@ import {
   Animated,
   GestureResponderEvent,
   I18nManager,
-  LayoutChangeEvent,
   PanResponder,
   PanResponderGestureState,
   StyleProp,
@@ -36,7 +35,7 @@ import {
 } from '../utils/StringUtil';
 import { getAlphaColor } from '../utils/ColorUtil';
 import { getBrightnessIcon, getVolumeIcon } from '../utils/ComponentUtil';
-import type { Dimension, LayoutMode, NexenConfig } from './NexenPlayer';
+import type { Dimension, NexenConfig } from './NexenPlayer';
 import type { NexenTheme } from '../utils/Theme';
 
 const FORWARD_OR_REWIND_DURATION = 10;
@@ -63,20 +62,14 @@ type GestureViewProps = {
   fullScreen?: boolean;
   locked: boolean;
   error?: boolean;
-  // errorText?: string;
   isSeeking: React.MutableRefObject<boolean>;
   isSliding: React.MutableRefObject<boolean>;
   isSeekable: React.MutableRefObject<boolean>;
   gestureEnabled: React.MutableRefObject<boolean>;
   durationTime: React.MutableRefObject<number>;
   currentTime: React.MutableRefObject<number>;
-
-  // layoutMode?: LayoutMode;
-  playerConfig?: NexenConfig;
   dimension: Dimension;
-  volume: number;
-  brightness: number;
-  // doubleTapTime?: number;
+  playerConfig?: NexenConfig;
   nexenTheme?: NexenTheme;
   onTapDetected?: (event: TapEventType, value?: number) => void;
   onGestureStart?: (event: GestureEventType, value: number) => void;
@@ -90,18 +83,13 @@ const GestureView = (props: GestureViewProps) => {
     fullScreen,
     locked,
     error,
-    // errorText,
     isSeeking,
     isSliding,
     isSeekable,
     gestureEnabled,
-    // layoutMode,
     dimension,
     currentTime,
     durationTime,
-    volume,
-    brightness,
-    // doubleTapTime,
     playerConfig,
     nexenTheme,
     onTapDetected,
@@ -230,20 +218,20 @@ const GestureView = (props: GestureViewProps) => {
     brightnessFactor.current = height / (height * BAR_HEIGHT_PERCENTAGE);
 
     seekVolume.current = clamp(
-      originalToSeekValue(volume!, MAX_VOLUME, height * BAR_HEIGHT_PERCENTAGE),
+      originalToSeekValue(playerConfig?.volume!, MAX_VOLUME, height * BAR_HEIGHT_PERCENTAGE),
       0,
       height * BAR_HEIGHT_PERCENTAGE
     );
     
     volumeTipViewRef.current?.updateState({
-      tipText: `${volume}%`,
-      icon: getVolumeIcon(volume!, MAX_VOLUME, volumeBarTheme.iconSize, volumeBarTheme.iconColor),
+      tipText: `${playerConfig?.volume}%`,
+      icon: getVolumeIcon(playerConfig?.volume!, MAX_VOLUME, volumeBarTheme.iconSize, volumeBarTheme.iconColor),
     });
     volumeBarHeight.setValue(seekVolume.current);
 
     seekBrightness.current = clamp(
       originalToSeekValue(
-        brightness!,
+        playerConfig?.brightness!,
         MAX_BRIGHTNESS,
         height * BAR_HEIGHT_PERCENTAGE
       ) + seekBrightnessDy.current,
@@ -252,9 +240,9 @@ const GestureView = (props: GestureViewProps) => {
     );
     
     brightnessTipViewRef.current?.updateState({
-      tipText: `${brightness}%`,
+      tipText: `${playerConfig?.brightness}%`,
       icon: getBrightnessIcon(
-        brightness!,
+        playerConfig?.brightness!,
         MAX_BRIGHTNESS,
         brightnessBarTheme.iconSize,
         brightnessBarTheme.iconColor
@@ -262,7 +250,7 @@ const GestureView = (props: GestureViewProps) => {
     });
     brightnessBarHeight.setValue(seekBrightness.current);
     
-  }, [volume, brightness, dimension]);
+  }, [playerConfig, dimension]);
 
   React.useEffect(() => {
     return () => {
@@ -366,7 +354,6 @@ const GestureView = (props: GestureViewProps) => {
           return false;
         }
         return Math.abs(gestureState.dx) > 2 || Math.abs(gestureState.dy) > 2;
-        // return  || ;
       },
       onPanResponderGrant: (
         e: GestureResponderEvent,

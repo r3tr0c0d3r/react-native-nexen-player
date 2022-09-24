@@ -8,7 +8,6 @@ type ModalViewProps = {
 
 const ModalView = (props: ModalViewProps) => {
   const { children, style } = props;
-
   return (
     <Animated.View style={[styles.container, style]}>
       {children}

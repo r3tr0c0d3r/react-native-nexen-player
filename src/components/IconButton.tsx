@@ -12,8 +12,6 @@ interface IconButtonProps {
 }
 
 const IconButton = ({children, style, onPress}: IconButtonProps) => {
-  // console.log(`IconButton:: renders`)
-
   return (
     <TouchableOpacity
       style={[styles.container, style]}
@@ -30,6 +28,5 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     marginHorizontal: 1,
-    // backgroundColor: '#cdc',
   },
 });

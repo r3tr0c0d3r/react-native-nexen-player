@@ -1,14 +1,12 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import type { NexenTheme, TagViewTheme } from '../utils/Theme';
+import type { TagViewTheme } from '../utils/Theme';
 
 export interface TimeTagViewTheme extends TagViewTheme {
   font?: string;
 }
 type TimeTagViewProps = {
   timeText: string;
-  // fullScreen: boolean;
-  // disableLargeMode?: boolean;
   theme?: TimeTagViewTheme;
   style?: StyleProp<ViewStyle>;
 };

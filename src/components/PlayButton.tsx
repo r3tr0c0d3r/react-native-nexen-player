@@ -1,9 +1,7 @@
 import {
   GestureResponderEvent,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import React from 'react';
 import { IconPlayCircle } from '../assets/icons';
