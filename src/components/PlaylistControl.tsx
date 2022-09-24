@@ -2,7 +2,6 @@ import React from 'react';
 import {
   FlatList,
   Image,
-  ListRenderItem,
   ListRenderItemInfo,
   StyleProp,
   StyleSheet,
@@ -11,20 +10,20 @@ import {
   ViewStyle,
 } from 'react-native';
 import GradientView from './GradientView';
-import { NexenTheme } from '../utils/Theme';
-import { EdgeInsets, PlaylistItem } from './NexenPlayer';
-import { IconPlayCircle } from '../assets/icons';
 import ModalView from './ModalView';
+import { NexenTheme } from '../utils/Theme';
+import { EdgeInsets, PlayListItem } from './NexenPlayer';
+import { IconPlayCircle } from '../assets/icons';
 import { withAnimation } from '../hoc/withAnimation';
 
 type PlaylistControlProps = {
   fullScreen?: boolean;
-  playlist?: PlaylistItem[];
+  playlist?: PlayListItem[];
   playlistIndex?: number;
   nexenTheme?: NexenTheme;
   insets?: EdgeInsets;
   style?: StyleProp<ViewStyle>;
-  onPlaylistItemPress?: (index: number) => void;
+  onPlayListItemPress?: (index: number) => void;
 };
 
 const PlaylistControl = (props: PlaylistControlProps) => {
@@ -35,7 +34,7 @@ const PlaylistControl = (props: PlaylistControlProps) => {
     fullScreen,
     nexenTheme,
     insets,
-    onPlaylistItemPress,
+    onPlayListItemPress,
   } = props;
 
   const playlistRef = React.useRef<FlatList>(null);
@@ -60,7 +59,7 @@ const PlaylistControl = (props: PlaylistControlProps) => {
   const renderPlayListItem = ({
     item,
     index,
-  }: ListRenderItemInfo<PlaylistItem>) => {
+  }: ListRenderItemInfo<PlayListItem>) => {
     const itemStyle = {
       width: ITEM_WIDTH,
       height: ITEM_HEIGHT,
@@ -71,12 +70,12 @@ const PlaylistControl = (props: PlaylistControlProps) => {
         style={[styles.itemContainer, itemStyle]}
         activeOpacity={0.6}
         onPress={() => {
-          onPlaylistItemPress?.(index);
+          onPlayListItemPress?.(index);
         }}
       >
         <Image
           style={[styles.image, itemStyle]}
-          source={{ uri: item.poster }}
+          source={{ uri: item.itemSource.poster }}
         />
         {index !== playlistIndex && (
           <IconPlayCircle

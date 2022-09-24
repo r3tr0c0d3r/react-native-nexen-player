@@ -1,20 +1,38 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Player from './Player';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import SingleScreen from './SingleScreen';
+import FlatlistScreen from './FlatlistScreen';
+import { IconFlatList, IconScrollView, IconSingle } from '../assets/icons';
+import ScrollViewScreen from './ScrollViewScreen';
 
 export default function App() {
-  
+  const Tab = createBottomTabNavigator();
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <View style={styles.topBar} />
-      <Player />
-      <View style={styles.bottomBar} />
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            if (route.name === 'Single') {
+              return <IconSingle size={size} color={color}/>
+            } else if (route.name === 'ScrollView') {
+              return <IconScrollView size={size} color={color}/>
+            } else {
+              return <IconFlatList size={size} color={color}/>
+            }
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}>
+          <Tab.Screen name="Single" component={SingleScreen} />
+          <Tab.Screen name="ScrollView" component={ScrollViewScreen} />
+          <Tab.Screen name="FlatList" component={FlatlistScreen} options={{headerShown: false}} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
@@ -23,25 +41,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#414141',
-  },
-  player: {
-    width: '100%',
-    height: 260,
-    // marginVertical: 5,
-  },
-  topBar: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#212121',
-  },
-  bottomBar: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#212121',
-  },
-  buttonContainer: {
-    padding: 10,
-    backgroundColor: 'pink',
-    zIndex: 1,
   },
 });

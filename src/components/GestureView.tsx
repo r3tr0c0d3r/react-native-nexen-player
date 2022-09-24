@@ -36,7 +36,7 @@ import {
 } from '../utils/StringUtil';
 import { getAlphaColor } from '../utils/ColorUtil';
 import { getBrightnessIcon, getVolumeIcon } from '../utils/ComponentUtil';
-import type { Dimension, LayoutMode, PlayerConfig } from './NexenPlayer';
+import type { Dimension, LayoutMode, NexenConfig } from './NexenPlayer';
 import type { NexenTheme } from '../utils/Theme';
 
 const FORWARD_OR_REWIND_DURATION = 10;
@@ -72,7 +72,7 @@ type GestureViewProps = {
   currentTime: React.MutableRefObject<number>;
 
   // layoutMode?: LayoutMode;
-  playerConfig?: PlayerConfig;
+  playerConfig?: NexenConfig;
   dimension: Dimension;
   volume: number;
   brightness: number;

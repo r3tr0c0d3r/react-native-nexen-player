@@ -3,7 +3,6 @@
     "baseUrl": "./",
     "paths": {
       "react-native-nexen-player": ["./src/index"],
-      "react-native-video": ["./src/types/react-native-video/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -16,6 +15,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
@@ -27,13 +27,6 @@
     "target": "esnext",
     "typeRoots": [
       "./node_modules/@types",
-      "./src/types"
     ],
   },
-//   "include": [
-//     "src/**/*.ts",
-//  ],
-//  "exclude": [
-//     "src/types/**"
-//  ]
 }

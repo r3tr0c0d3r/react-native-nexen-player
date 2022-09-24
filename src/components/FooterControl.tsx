@@ -40,7 +40,7 @@ import { getAlphaColor } from '../utils/ColorUtil';
 import TimeTagView, { TimeTagViewTheme } from './TimeTagView';
 import VolumeTagView, { VolumeTagViewTheme } from './VolumeTagView';
 import type { NexenTheme } from '../utils/Theme';
-import type { EdgeInsets, LayoutMode, PlayerConfig } from './NexenPlayer';
+import type { EdgeInsets, LayoutMode, NexenConfig } from './NexenPlayer';
 
 type FooterControlProps = {
   opacity: Animated.Value;
@@ -57,7 +57,7 @@ type FooterControlProps = {
   volume: number;
   totalVolume: number;
   insets?: EdgeInsets;
-  playerConfig?: PlayerConfig;
+  playerConfig?: NexenConfig;
   nexenTheme?: NexenTheme;
   // layoutMode?: LayoutMode;
   // disableSkip?: boolean;

@@ -12,13 +12,13 @@ import GradientView from './GradientView';
 import StepSeekBar, { StepSeekBarTheme } from './StepSeekBar';
 import ModalView from './ModalView';
 import { withAnimation } from '../hoc/withAnimation';
-import { EdgeInsets } from './NexenPlayer';
+import { EdgeInsets, PlaybackSpeed } from './NexenPlayer';
 
 const speedData = ['0.25', '0.5', '0.75', '1.0', '1.5', '2.0', '3.0'];
 
 type SpeedControlProps = {
   style?: StyleProp<ViewStyle>;
-  currentSpeed: number;
+  currentSpeed: PlaybackSpeed;
   fullScreen?: boolean;
   nexenTheme?: NexenTheme;
   insets?: EdgeInsets;
@@ -35,8 +35,7 @@ const SpeedControl = (props: SpeedControlProps) => {
     onSpeedChange,
   } = props;
 
-  const srtValue = String(currentSpeed);
-  const curerntIndex = speedData.indexOf(srtValue!);
+  const curerntIndex = speedData.indexOf(currentSpeed!);
   const validIndex = curerntIndex < 0 ? 3 : curerntIndex;
 
     const CONTAINER_HORIZONTAL_PADDING = fullScreen 
@@ -114,7 +113,7 @@ const SpeedControl = (props: SpeedControlProps) => {
 export default withAnimation(SpeedControl);
 
 SpeedControl.defaultProps = {
-  currentSpeed: 1.0,
+  
 };
 
 const styles = StyleSheet.create({

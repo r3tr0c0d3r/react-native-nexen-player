@@ -15,7 +15,7 @@ import {
 import IconButton from './IconButton';
 import GradientView from './GradientView';
 import type { NexenTheme } from '../utils/Theme';
-import type { EdgeInsets, LayoutMode, PlayerConfig } from './NexenPlayer';
+import type { EdgeInsets, LayoutMode, NexenConfig } from './NexenPlayer';
 import IconTagView, {
   IconTagViewRef,
   IconTagViewState,
@@ -36,8 +36,8 @@ type HeaderControlProps = {
   // disableBack?: boolean;
   // disableRatio?: boolean;
   // disableMore?: boolean;
-  playerConfig?: PlayerConfig;
   insets?: EdgeInsets;
+  playerConfig?: NexenConfig;
   nexenTheme?: NexenTheme;
   // layoutMode?: LayoutMode;
   onBackPress?: () => void;

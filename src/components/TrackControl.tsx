@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import type { NexenTheme } from '../utils/Theme';
 import DropDown, { DropDownItem, DropDownTheme } from './DropDown';
@@ -12,7 +7,13 @@ import GradientView from './GradientView';
 import ModalView from './ModalView';
 
 import { withAnimation } from '../hoc/withAnimation';
-import { AudioTrack, EdgeInsets, SelectedAudioTrack, SelectedTextTrack, TextTrack } from './NexenPlayer';
+import {
+  AudioTrack,
+  EdgeInsets,
+  SelectedAudioTrack,
+  SelectedTextTrack,
+  TextTrack,
+} from './NexenPlayer';
 import { getAlphaColor } from '../utils/ColorUtil';
 
 type TrackControlProps = {
@@ -29,7 +30,18 @@ type TrackControlProps = {
 };
 
 const TrackControl = (props: TrackControlProps) => {
-  const { style, fullScreen, nexenTheme, insets, textTracks, selectedTextTrack, audioTracks, selectedAudioTrack, onTextTrackSelect, onAudioTrackSelect } = props;
+  const {
+    style,
+    fullScreen,
+    nexenTheme,
+    insets,
+    textTracks,
+    selectedTextTrack,
+    audioTracks,
+    selectedAudioTrack,
+    onTextTrackSelect,
+    onAudioTrackSelect,
+  } = props;
   // const rtlMultiplier = React.useRef(1);
   // const isRTL = I18nManager.isRTL;
   // rtlMultiplier.current = isRTL ? -1 : 1;
@@ -38,18 +50,26 @@ const TrackControl = (props: TrackControlProps) => {
   // console.log(`hh: ${hh} textTracks: ${textTracks?.length} audioTracks: ${audioTracks?.length}`);
   const dropdownHeight = Number(hh) - 10 * 2 - 40;
 
-  const CONTAINER_HORIZONTAL_PADDING = fullScreen 
-  ? (insets?.left! + insets?.right!) / 2 > 0 
-  ? (insets?.left! + insets?.right!) / 2
-  : 8
-  : 8;
+  const CONTAINER_HORIZONTAL_PADDING = fullScreen
+    ? (insets?.left! + insets?.right!) / 2 > 0
+      ? (insets?.left! + insets?.right!) / 2
+      : 8
+    : 8;
 
   // const selectRef = React.useRef<Select>(null);
   // const optionRef = React.useRef<OptionList>(null);
-  const [textItems, setTextItems] = React.useState<DropDownItem[] | undefined>();
-  const [selectedTextItem, setSelectedTextItem] = React.useState<DropDownItem | undefined>();
-  const [audioItems, setAudioItems] = React.useState<DropDownItem[] | undefined>();
-  const [selectedAudioItem, setSelectedAudioItem] = React.useState<DropDownItem | undefined>();
+  const [textItems, setTextItems] = React.useState<
+    DropDownItem[] | undefined
+  >();
+  const [selectedTextItem, setSelectedTextItem] = React.useState<
+    DropDownItem | undefined
+  >();
+  const [audioItems, setAudioItems] = React.useState<
+    DropDownItem[] | undefined
+  >();
+  const [selectedAudioItem, setSelectedAudioItem] = React.useState<
+    DropDownItem | undefined
+  >();
   const data = [
     { label: 'One', value: '1' },
     { label: 'Two', value: '2' },
@@ -61,26 +81,36 @@ const TrackControl = (props: TrackControlProps) => {
   const dropDownTheme = React.useMemo((): DropDownTheme => {
     return {
       font: nexenTheme?.fonts?.secondaryFont,
-      backgroundColor: nexenTheme?.dropdownMenu?.backgroundColor
-      || getAlphaColor(nexenTheme?.colors?.secondaryColor!, 0.1),
-      headerBackgroundColor: nexenTheme?.dropdownMenu?.headerBackgroundColor
-      || getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.7),
-      itemBackgroundColor: nexenTheme?.dropdownMenu?.itemBackgroundColor
-      || getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.3),
-      textColor: nexenTheme?.dropdownMenu?.textColor
-      || nexenTheme?.colors?.secondaryTextColor,
-      headerTextColor: nexenTheme?.dropdownMenu?.headerTextColor
-      || nexenTheme?.colors?.secondaryTextColor,
-      itemTextColor: nexenTheme?.dropdownMenu?.itemTextColor
-      || nexenTheme?.colors?.secondaryTextColor,
-      itemSelectedColor: nexenTheme?.dropdownMenu?.itemSelectedColor
-      || nexenTheme?.colors?.accentColor,
-      textSize: nexenTheme?.dropdownMenu?.textSize
-      || nexenTheme?.sizes?.secondaryTextSize,
-      headerTextSize: nexenTheme?.dropdownMenu?.headerTextSize
-      || nexenTheme?.sizes?.secondaryTextSize,
-      itemTextSize: nexenTheme?.dropdownMenu?.itemTextSize
-      || nexenTheme?.sizes?.secondaryTextSize,
+      backgroundColor:
+        nexenTheme?.dropdownMenu?.backgroundColor ||
+        getAlphaColor(nexenTheme?.colors?.secondaryColor!, 0.1),
+      headerBackgroundColor:
+        nexenTheme?.dropdownMenu?.headerBackgroundColor ||
+        getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.7),
+      itemBackgroundColor:
+        nexenTheme?.dropdownMenu?.itemBackgroundColor ||
+        getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.3),
+      textColor:
+        nexenTheme?.dropdownMenu?.textColor ||
+        nexenTheme?.colors?.secondaryTextColor,
+      headerTextColor:
+        nexenTheme?.dropdownMenu?.headerTextColor ||
+        nexenTheme?.colors?.secondaryTextColor,
+      itemTextColor:
+        nexenTheme?.dropdownMenu?.itemTextColor ||
+        nexenTheme?.colors?.secondaryTextColor,
+      itemSelectedColor:
+        nexenTheme?.dropdownMenu?.itemSelectedColor ||
+        nexenTheme?.colors?.accentColor,
+      textSize:
+        nexenTheme?.dropdownMenu?.textSize ||
+        nexenTheme?.sizes?.secondaryTextSize,
+      headerTextSize:
+        nexenTheme?.dropdownMenu?.headerTextSize ||
+        nexenTheme?.sizes?.secondaryTextSize,
+      itemTextSize:
+        nexenTheme?.dropdownMenu?.itemTextSize ||
+        nexenTheme?.sizes?.secondaryTextSize,
       cornerRadius: nexenTheme?.dropdownMenu?.cornerRadius,
     };
   }, [nexenTheme]);
@@ -91,55 +121,76 @@ const TrackControl = (props: TrackControlProps) => {
     bottom: 0,
     paddingHorizontal: 0,
     paddingVertical: 0,
-  }
+  };
 
   const _onTextItemSelect = (item: DropDownItem) => {
-    const selectedTrack = {type: selectedTextTrack?.type || 'title', value: item.value}
+    const selectedTrack = {
+      type: selectedTextTrack?.type || 'title',
+      value: item.value,
+    };
     onTextTrackSelect?.(selectedTrack);
     setSelectedTextItem(item);
-  }
+  };
 
   const _onAudioItemSelect = (item: DropDownItem) => {
-    const selectedTrack = {type: selectedAudioTrack?.type || 'title', value: item.value}
+    const selectedTrack = {
+      type: selectedAudioTrack?.type || 'title',
+      value: item.value,
+    };
     onAudioTrackSelect?.(selectedTrack);
     setSelectedAudioItem(item);
-  }
+  };
 
   React.useEffect(() => {
     if (textTracks && textTracks.length > 0) {
-      const newItems: DropDownItem[] = [{label: 'None', value: 'none'}];
+      const newItems: DropDownItem[] = [{ label: 'None', value: 'none' }];
       textTracks.forEach((item) => {
-        newItems.push({label: item.title, value: item.title});
+        newItems.push({ label: item.title, value: item.title });
       });
       setTextItems(newItems);
     }
     if (audioTracks && audioTracks.length > 0) {
-      const newItems: DropDownItem[] = [{label: 'None', value: 'none'}];
+      const newItems: DropDownItem[] = [{ label: 'None', value: 'none' }];
       audioTracks.forEach((item) => {
-        newItems.push({label: item.title, value: item.title});
+        newItems.push({ label: item.title, value: item.title });
       });
       setAudioItems(newItems);
     }
-
-  }, [textTracks, audioTracks])
+  }, [textTracks, audioTracks]);
 
   React.useEffect(() => {
     if (textTracks && selectedTextTrack) {
       const selected = textTracks.find((item) => {
-        return item[selectedTextTrack.type] === selectedTextTrack.value
+        if (
+          selectedTextTrack.type !== 'system' &&
+          selectedTextTrack.type !== 'disabled'
+        ) {
+          return item[selectedTextTrack.type] === selectedTextTrack.value;
+        }
+        return false;
       });
-      setSelectedTextItem({label: selected?.title || 'None', value: selected?.title || 'none'});
+      setSelectedTextItem({
+        label: selected?.title || 'None',
+        value: selected?.title || 'none',
+      });
     }
 
     if (audioTracks && selectedAudioTrack) {
       const selected = audioTracks.find((item) => {
-        return item[selectedAudioTrack.type] === selectedAudioTrack.value
+        if (
+          selectedAudioTrack.type !== 'system' &&
+          selectedAudioTrack.type !== 'disabled'
+        ) {
+          return item[selectedAudioTrack.type] === selectedAudioTrack.value;
+        }
+        return false;
       });
-      setSelectedAudioItem({label: selected?.title || 'None', value: selected?.title || 'none'});
+      setSelectedAudioItem({
+        label: selected?.title || 'None',
+        value: selected?.title || 'none',
+      });
     }
-    
-  }, [selectedTextTrack, selectedAudioTrack])
-
+  }, [selectedTextTrack, selectedAudioTrack]);
 
   return (
     <ModalView style={[styles.container, style, containerStyle]}>

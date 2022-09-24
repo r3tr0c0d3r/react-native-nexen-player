@@ -13,9 +13,7 @@ const PosterView = (props: PosterViewProps) => {
   const imageStyle = {
     resizeMode: posterResizeMode,
   };
-  React.useEffect(() => {
-    console.log(`PosterView ::posterSource: ${posterSource}`);
-  }, []);
+
   return (
     <View style={styles.container}>
       <Image
@@ -35,7 +33,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'green',
+    backgroundColor: '#0a0a0a',
   },
   image: {
     width: '100%',
