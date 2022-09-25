@@ -170,7 +170,7 @@ export type NexenConfig = {
   disableSkip?: boolean;
   disableStop?: boolean;
   disableFullscreen?: boolean;
-  disablePlaylist?: boolean;
+  disablePlayList?: boolean;
   disableSubtitle?: boolean;
 };
 
@@ -181,7 +181,6 @@ export type NexenPlayerProps = {
   style?: StyleProp<ViewStyle>;
   theme?: NexenTheme;
   insets?: EdgeInsets;
-
   onBackPress?: () => void;
   onFullScreenModeUpdate?: (fullScreen: boolean, index?: number) => void;
   onPlay?: (index?: number) => void;
@@ -196,7 +195,8 @@ export type NexenPlayerProps = {
   onSpeedUpdate?: (speed: PlaybackSpeed) => void;
   onPlayListItemSelect?: (index: number) => void;
   onScreenLockUpdate?: (locked: boolean) => void;
-  onReload?: (index?: number) => void;
+  onLoad?: (index?: number) => void;
+  onError?: (error: string) => void;
 };
 
 const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
@@ -222,7 +222,8 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
       onSpeedUpdate,
       onPlayListItemSelect,
       onScreenLockUpdate,
-      onReload,
+      onLoad,
+      onError,
     } = props;
 
     const [dimension, setDimension] = React.useState({ width: 0, height: 0 });
@@ -268,7 +269,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
       disableStop: false,
       disableVolume: false,
       disableFullscreen: false,
-      disablePlaylist: false,
+      disablePlayList: false,
       disableSubtitle: false,
       ...playerConfig,
     });
@@ -1407,6 +1408,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     const _onLoad = React.useCallback((data: OnLoadData) => {
       setLoading(false);
       setError(false);
+      onLoad?.(nexenConfig?.optimize ? nexenConfig.index : playList?.currentIndex);
       if (nexenConfig?.autoPlay) {
         setPaused(false);
       }
@@ -1461,6 +1463,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
 
     const _onError = React.useCallback((error: LoadError) => {
       setError(true);
+      onError?.(error.error.errorString);
     }, []);
 
     const newSource: NexenSource = playList?.items
@@ -1472,7 +1475,7 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     if (newSource.poster) {
       posterDisabled.current = false;
     } else {
-      posterDisabled.current = false;
+      posterDisabled.current = true;
     }
 
     const newStyle: StyleProp<ViewStyle> = fullScreen

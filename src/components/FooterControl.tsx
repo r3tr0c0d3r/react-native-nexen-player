@@ -405,7 +405,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 <IconAspectRatio size={ICON_SIZE} color={ICON_COLOR} />
               </IconButton>
             )}
-            {!disablePlaylistAndSkip && !playerConfig?.disablePlaylist && !locked && (
+            {!disablePlaylistAndSkip && !playerConfig?.disablePlayList && !locked && (
               <IconButton onPress={onVideoListPress}>
               <IconFilm size={ICON_SIZE} color={ICON_COLOR} />
             </IconButton>

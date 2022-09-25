@@ -4,12 +4,12 @@ A next generation video player for react native app based on `react-native-video
 
 ## Preview
 
-![@](./demo/react_native_nexen_player.gif)
+![@](https://github.com/r3tr0c0d3r/react-native-nexen-player/blob/master/demo/react_native_nexen_player.gif?raw=true)
 
 ## Installation
 
 ```sh
-npm install react-native-nexen-player
+npm install --save react-native-nexen-player
 ```
 
 or
@@ -45,7 +45,7 @@ const onPausePress = () => {
 <NexenPlayer
     ref={playerRef}
     style={styles.player}
-    playerSource={{
+    source={{
       source: require('../assets/videos/Street_Fighter_V_Stop_Motion.mp4'),
       poster: 'https://img.youtube.com/vi/KrmxD8didgQ/0.jpg',
       title: "Ryu's Hurricane Kick and Hadoken",
@@ -59,27 +59,26 @@ const onPausePress = () => {
 
 | prop                      | type     | default      | description                                 |
 | ------------------------- | -------- | ------------ | --------------------------------------------|
-| playerSource              | NexenPlayer [PlayerSource](#PlayerSource) object   | {}           | media source.           |
-| playerConfig              | NexenPlayer [PlayerConfig](#PlayerConfig) object   | ''           | vidoe player config.       |
-| optimizationConfig        | NexenPlayer [OptimizationConfig](#OptimizationConfig) object   | {}           | only for FlatList Optimization.      |
+| source                    | NexenPlayer [NexenSource](#NexenSource) object   | {}           | media source.           |
+| config                    | NexenPlayer [NexenConfig](#NexenConfig) object   | {}           | vidoe player config.       |
+| playList                  | object   | {}           | can set video playlist for the player.      |
 | insets                    | object   | {}           | edge insets for video controls. you can set insets from `react-native-safe-area-context`.|
 | style                     | object   | {}           | style for video player.    |
 | theme                     | object   | {}           | set theme for video player.    |
 
 
-### PlayerSource
+### NexenSource
 
 | prop                      | type     | default      | description                                 |
 | ------------------------- | -------- | ------------ | --------------------------------------------|
 | source                    | Source   | {}           | media source.       |
-| title                     | string   | undefined           | video title.       |
-| poster                    | string   | undefined           | poster url.       |
-| playlist                  | { items: PlaylistItem[]; currentIndex?: number; }   | {}           | poster style.      |
+| title                     | string   | undefined    | video title.       |
+| poster                    | string   | undefined    | poster url.       |
 | textTracks                | TextTrack[]   | undefined             | text tracks (cations or subtitle) for the video.       |
 | selectedTextTrack         | SelectedTextTrack   | undefined          | text trak that will be shown for the video.       |
 | selectedAudioTrack        | SelectedAudioTrack   | undefined            | audio track that will be selected for the video.    |
 
-### PlayerConfig
+### NexenConfig
 
 | prop                      | type     | default      | description                                 |
 | ------------------------- | -------- | ------------ | --------------------------------------------|
@@ -105,45 +104,49 @@ const onPausePress = () => {
 | disableSkip               | boolean  | false        | hide skip buttons. |
 | disableStop               | boolean  | false        | hide stop button. |
 | disableFullscreen         | boolean  | false        | hide fullscreen button. |
-| disablePlaylist           | boolean  | () => {}     | hide video playlist button. |
-| index                     | number    | 0           | flatlist index (only for FlatList)      |
-| activeIndex               | number    | -1          | flatlist current video index (only for FlatList)         |
-| optimize                  | boolean   | false       | wheather you need flatlist optimization or not (only for FlatList)         |
+| disablePlayList           | boolean  | false        | hide video playlist button. |
+| index                     | number   | 0           | flatlist index (only for FlatList)      |
+| activeIndex               | number   | -1          | flatlist current video index (only for FlatList)         |
+| optimize                  | boolean  | false       | wheather you need flatlist optimization or not (only for FlatList)         |
 
 ## Enevt props
 | prop                      | type     | default      | description                                 |
 | ------------------------- | -------- | ------------ | --------------------------------------------|
-| onBackPressed             | func     | () => {}     | callback for back button.|
-| onPlay                    | func     | () => {}     | callback for play button.|
-| onPause                   | func     | () => {}     | callback for pause button.|
-| onStop                    | func     | () => {}     | callback for stop button.|
-| onSkipNext                | func     | () => {}     | callback for skipNext event.|
-| onSkipBack                | func     | () => {}     | callback for skipBack event.|
-| onReload                  | func     | () => {}     | callback for reload event.|
-| onVolumeUpdate            | func     | () => {}     | callback for volume update event.|
-| onBrightnessUpdate        | func     | () => {}     | callback for brightness update event.|
-| onMuteUpdate              | func     | () => {}     | callback for mute button.|
-| onLoopUpdate              | func     | () => {}     | callback for loop button.|
-| onSpeedUpdate             | func     | () => {}     | callback for playback speed update event.|
-| onFullScreenModeUpdate    | func     | () => {}     | callback for fullscreen mode update event.|
-| onScreenLockUpdate        | func     | () => {}     | callback for screen lock update event.|
-| onPlaylistItemSelect      | func     | () => {}     | callback for video list item select event.|
+| onBackPressed             | func     | undefined     | callback for back button.|
+| onPlay                    | func     | undefined     | callback for play button.|
+| onPause                   | func     | undefined     | callback for pause button.|
+| onStop                    | func     | undefined     | callback for stop button.|
+| onSkipNext                | func     | undefined     | callback for skipNext event.|
+| onSkipBack                | func     | undefined     | callback for skipBack event.|
+| onReload                  | func     | undefined     | callback for reload event.|
+| onVolumeUpdate            | func     | undefined     | callback for volume update event.|
+| onBrightnessUpdate        | func     | undefined     | callback for brightness update event.|
+| onMuteUpdate              | func     | undefined     | callback for mute button.|
+| onRepeatUpdate            | func     | undefined     | callback for loop button.|
+| onSpeedUpdate             | func     | undefined     | callback for playback speed update event.|
+| onFullScreenModeUpdate    | func     | undefined     | callback for fullscreen mode update event.|
+| onScreenLockUpdate        | func     | undefined     | callback for screen lock update event.|
+| onPlayListItemSelect      | func     | undefined     | callback for video list item select event.|
+| onLoad                    | func     | undefined     | callback for video load event.|
+| onError                   | func     | undefined     | callback for video load error event.|
 
 ## Methods
 | prop                      | type     | default      | description                                 |
 | ------------------------- | -------- | ------------ | --------------------------------------------|
-| play                      | func     | () => {}     | call to play a video.|
-| pause                     | func     | () => {}     | call to pause a video.|
-| stop                      | func     | () => {}     | call to stop a video.|
-| skipNext                  | func     | () => {}     | skip to next video.|
-| skipBack                  | func     | () => {}     | skip to prvious video.|
-| reload                    | func     | () => {}     | call to reload a video.|
-| load                      | func     | () => {}     | call to load a video.|
-| setFullScreenMode         | func     | () => {}     | set fullscreen mode.|
+| play                      | func     | undefined     | call to play a video.|
+| pause                     | func     | undefined     | call to pause a video.|
+| stop                      | func     | undefined     | call to stop a video.|
+| skipNext                  | func     | undefined     | skip to next video.|
+| skipBack                  | func     | undefined     | skip to prvious video.|
+| reload                    | func     | undefined     | call to reload a video.|
+| load                      | func     | undefined     | call to load a video.|
+| setFullScreenMode         | func     | undefined     | set fullscreen mode.|
 
 ## ToDo
 
--[] Custom icon support
+- [ ] Custom icon support
+- [ ] Improve fullscreen support
+- [ ] Better documentation
 
 ## Contributing
 
