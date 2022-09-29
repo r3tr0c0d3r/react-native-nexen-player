@@ -44,9 +44,7 @@ import Loader from './Loader';
 import { getAlphaColor } from '../utils/ColorUtil';
 import Video, {
   LoadError,
-  OnBufferData,
   OnLoadData,
-  OnPlaybackRateData,
   OnProgressData,
   OnSeekData,
   TextTrackType,
@@ -308,7 +306,6 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     const showPoster = React.useRef(true);
     const isFullscreen = React.useRef(fullScreen);
     const appState = React.useRef(AppState.currentState);
-    
 
     const moreControlRef = React.useRef<WrapperComponentRef>(null);
     const speedControlRef = React.useRef<WrapperComponentRef>(null);
@@ -1099,9 +1096,9 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
         if (isEnded.current && nexenConfig?.repeat) {
           setPaused(false);
           videoRef.current?.seek(0, 0);
-        onStop?.(
-          nexenConfig?.optimize ? nexenConfig.index : playList?.currentIndex
-        );
+          onStop?.(
+            nexenConfig?.optimize ? nexenConfig.index : playList?.currentIndex
+          );
         } else {
           setPaused(true);
         }
@@ -1408,7 +1405,9 @@ const NexenPlayer = React.forwardRef<NexenPlayerRef, NexenPlayerProps>(
     const _onLoad = React.useCallback((data: OnLoadData) => {
       setLoading(false);
       setError(false);
-      onLoad?.(nexenConfig?.optimize ? nexenConfig.index : playList?.currentIndex);
+      onLoad?.(
+        nexenConfig?.optimize ? nexenConfig.index : playList?.currentIndex
+      );
       if (nexenConfig?.autoPlay) {
         setPaused(false);
       }

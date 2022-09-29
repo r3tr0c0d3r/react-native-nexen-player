@@ -32,7 +32,6 @@ const PlaylistControl = (props: PlaylistControlProps) => {
     playlist,
     playlistIndex,
     fullScreen,
-    nexenTheme,
     insets,
     onPlayListItemPress,
   } = props;
@@ -41,19 +40,19 @@ const PlaylistControl = (props: PlaylistControlProps) => {
 
   const CONTAINER_HEIGHT = StyleSheet.flatten(style).height || 120;
   const CONTAINER_PADDING = 16;
-  const ITEM_HEIGHT = fullScreen 
-  ? Number(CONTAINER_HEIGHT) - CONTAINER_PADDING - insets?.bottom!
-  : Number(CONTAINER_HEIGHT) - CONTAINER_PADDING * 2;
+  const ITEM_HEIGHT = fullScreen
+    ? Number(CONTAINER_HEIGHT) - CONTAINER_PADDING - insets?.bottom!
+    : Number(CONTAINER_HEIGHT) - CONTAINER_PADDING * 2;
   const ITEM_WIDTH = ITEM_HEIGHT * (16 / 9);
   const ICON_SIZE = ITEM_HEIGHT * 0.6;
 
   const SEPERATOR_WIDTH = 5;
   const TOTAL_WIDTH = ITEM_WIDTH + SEPERATOR_WIDTH;
 
-  const CONTAINER_HORIZONTAL_PADDING = fullScreen 
-    ? (insets?.left! + insets?.right!) / 2 > 0 
-    ? (insets?.left! + insets?.right!) / 2
-    : 8
+  const CONTAINER_HORIZONTAL_PADDING = fullScreen
+    ? (insets?.left! + insets?.right!) / 2 > 0
+      ? (insets?.left! + insets?.right!) / 2
+      : 8
     : 8;
 
   const renderPlayListItem = ({
@@ -112,7 +111,9 @@ const PlaylistControl = (props: PlaylistControlProps) => {
           ref={playlistRef}
           style={styles.list}
           keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={() => <View style={{ width: SEPERATOR_WIDTH }} />}
+          ItemSeparatorComponent={() => (
+            <View style={{ width: SEPERATOR_WIDTH }} />
+          )}
           data={playlist}
           renderItem={renderPlayListItem}
           initialScrollIndex={playlistIndex}

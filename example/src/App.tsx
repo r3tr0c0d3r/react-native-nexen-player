@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,7 +16,7 @@ export default function App() {
     <SafeAreaProvider style={styles.container}>
       <NavigationContainer>
         <Tab.Navigator screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ color, size }) => {
             if (route.name === 'Single') {
               return <IconSingle size={size} color={color}/>
             } else if (route.name === 'ScrollView') {

@@ -1,3 +1,4 @@
+import React, { ReactElement } from 'react';
 import {
   Animated,
   FlatList,
@@ -7,13 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { ReactElement } from 'react';
 import { IconChevronDown } from '../assets/icons';
 import { DropdownMenuTheme } from '../utils/Theme';
 
 const ANIMATION_DURATION = 250;
 const USE_NATIVE_DRIVER = false;
-
 export interface DropDownTheme extends DropdownMenuTheme {
   font?: string;
 }
@@ -35,7 +34,6 @@ type DropDownProps = {
 
 const DropDown = (props: DropDownProps) => {
   const {
-    width,
     height = 100,
     label,
     items,
@@ -186,7 +184,7 @@ const DropDown = (props: DropDownProps) => {
           <FlatList
             data={items}
             renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(index) => index.toString()}
           />
         </Animated.View>
       </View>
@@ -215,9 +213,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fafafa',
   },
-  icon: {
-    
-  },
+  icon: {},
   dropdown: {
     ...StyleSheet.absoluteFillObject,
   },

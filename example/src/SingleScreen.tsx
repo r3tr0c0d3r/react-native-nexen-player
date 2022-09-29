@@ -1,5 +1,16 @@
 import React, { ReactElement } from 'react';
-import { Dimensions, FlatList, Image, ListRenderItemInfo, StatusBar, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  ListRenderItemInfo,
+  StatusBar,
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Button from './Button';
 import NexenPlayer, {
   LayoutMode,
@@ -10,15 +21,13 @@ import NexenPlayer, {
   PlayList,
 } from 'react-native-nexen-player';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Orientation, { OrientationType } from 'react-native-orientation-locker';
+// import Orientation, { OrientationType } from 'react-native-orientation-locker';
 import { useNavigation } from '@react-navigation/native';
 import { IconSingle } from '../assets/icons';
-import { data, getData } from './data';
-const { width, height } = Dimensions.get('screen');
+import { getData } from './data';
+const { width } = Dimensions.get('screen');
 
-type Props = {};
-
-const SingleScreen = (props: Props) => {
+const SingleScreen = () => {
   const COLUMNS = 3;
   const ITEM_SIZE = width / 3;
   const navigation = useNavigation();
@@ -26,8 +35,7 @@ const SingleScreen = (props: Props) => {
 
   const playerRef = React.useRef<NexenPlayerRef>(null);
 
-  
-  const [source, setSource] = React.useState<NexenSource>({
+  const [source] = React.useState<NexenSource>({
     // source: {
     //   uri: 'https://bitmovin-a.akamaihd.net/content/sintel/sintel.mpd',
     // },
@@ -42,7 +50,7 @@ const SingleScreen = (props: Props) => {
     autoPlay: true,
   });
 
-  const [paused, setPaused] = React.useState(true);
+  // const [paused, setPaused] = React.useState(true);
   const [isFullScreen, setIsFullScreen] = React.useState<boolean>(false);
   const [playlist, setPlaylist] = React.useState<PlayList | undefined>();
 
@@ -61,14 +69,6 @@ const SingleScreen = (props: Props) => {
     });
   };
 
-  const onPausePress = () => {
-    if (paused) {
-      playerRef.current?.play();
-    } else {
-      playerRef?.current?.pause();
-    }
-    setPaused((prevState) => !prevState);
-  };
   const updateLayoutMode = (mode: LayoutMode) => {
     setConfig((prevState) => {
       return {
@@ -88,11 +88,6 @@ const SingleScreen = (props: Props) => {
     }
   };
 
-  const onToggleFullscreen = () => {
-    // playerRef.current?.setPlaylistIndex(9);
-    setIsFullScreen((prevState) => !prevState);
-  };
-
   const onFullScreenModeUpdate = async (fullScreen: boolean) => {
     console.log(`Player: onFullScreenModeUpdate:${fullScreen}`);
     if (fullScreen) {
@@ -109,12 +104,12 @@ const SingleScreen = (props: Props) => {
 
   const onPlay = () => {
     console.log(`Player: onPlay`);
-    setPaused(false);
+    // setPaused(false);
   };
 
   const onPaused = () => {
     console.log(`Player: onPaused`);
-    setPaused(true);
+    // setPaused(true);
   };
 
   const onSkipNext = (index: number) => {
@@ -127,20 +122,13 @@ const SingleScreen = (props: Props) => {
 
   const onPlaylistSet = () => {
     if (playlist) {
-      // setSource((prevState) => {
-      //   return {
-      //     ...prevState,
-      //     playlist: undefined,
-      //   };
-      // });
       setPlaylist(undefined);
     } else {
       setPlaylist({
         items: getData(),
         currentIndex: 4,
-    });
+      });
     }
-    // setPlaylist((prevState) => !prevState);
   };
 
   const updateCurrentIndex = (index: number) => {
@@ -148,23 +136,24 @@ const SingleScreen = (props: Props) => {
       return {
         ...prevState,
         currentIndex: index,
-      }
+      };
     });
-  }
+  };
 
   const renderItem = ({
     item,
     index,
   }: ListRenderItemInfo<PlayListItem>): ReactElement<any, any> => {
-    
     const onItemPress = () => {
-      console.log(`onItemPress: currentIndex: ${playlist?.currentIndex} index: ${index}`)
+      console.log(
+        `onItemPress: currentIndex: ${playlist?.currentIndex} index: ${index}`
+      );
       if (index !== playlist?.currentIndex) {
         updateCurrentIndex(index);
-      }  
-    }
+      }
+    };
     const posterUri = { uri: item.itemSource.poster };
-    // console.log(`Item: ${JSON.stringify(posterUri)}`);
+
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -233,7 +222,7 @@ const SingleScreen = (props: Props) => {
           />
         </View>
         <FlatList
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(index) => index.toString()}
           style={{ flex: 1 }}
           data={playlist?.items}
           renderItem={renderItem}

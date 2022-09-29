@@ -214,10 +214,6 @@ const SeekBar = (props: SeekBarProps) => {
         e: GestureResponderEvent,
         gestureState: PanResponderGestureState
       ) => false,
-      onPanResponderTerminate: (
-        e: GestureResponderEvent,
-        gestureState: PanResponderGestureState
-      ) => {},
     })
   );
 
@@ -275,14 +271,10 @@ const SeekBar = (props: SeekBarProps) => {
       {/* Duration Bar */}
       <View style={[styles.totalSeekBar, totalSeekBarStyle]} />
       {/* Progress Bar*/}
-      <Animated.View
-        style={[styles.seekBar, seekBarStyle]}
-      />
+      <Animated.View style={[styles.seekBar, seekBarStyle]} />
       {/* Cache Bar*/}
       {!disableCachedTrack && (
-        <Animated.View
-          style={[styles.cachedBar, cachedBarStyle]}
-        />
+        <Animated.View style={[styles.cachedBar, cachedBarStyle]} />
       )}
       {/* Seek Bar Thumb */}
       <Animated.View

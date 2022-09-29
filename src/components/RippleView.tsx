@@ -1,4 +1,4 @@
-import React, {useImperativeHandle} from 'react';
+import React, { useImperativeHandle } from 'react';
 import {
   Animated,
   Easing,
@@ -10,10 +10,7 @@ import {
 
 const RIPPLE_ANIM_DURATION = 500;
 const BLINK_ANIM_DURATION = 200;
-const TEXT_ANIM_DURATION = 650;
-export interface RippleViewTheme {
-
-}
+export interface RippleViewTheme {}
 
 type RippleViewProps = {
   children: React.ReactElement;
@@ -23,14 +20,14 @@ type RippleViewProps = {
   rippleStyle?: StyleProp<ViewStyle>;
 };
 
-export type RippleEvent = {x: number; y: number};
+export type RippleEvent = { x: number; y: number };
 export type RippleViewRef = {
   onPress: (newTipText?: string, callback?: () => void) => void;
 };
 
 const RippleView = React.forwardRef<RippleViewRef, RippleViewProps>(
   (props, ref) => {
-    const {style, containerStyle, rippleStyle, rippleSize, children} = props;
+    const { style, containerStyle, rippleStyle, rippleSize, children } = props;
     const [tipText, setTipText] = React.useState('');
 
     const rippleOpacity = React.useRef(new Animated.Value(0)).current;
@@ -39,12 +36,13 @@ const RippleView = React.forwardRef<RippleViewRef, RippleViewProps>(
 
     useImperativeHandle(ref, () => ({
       onPress: (newTipText?: string, callback?: () => void) => {
-        startRippleAnimation();
+        startRippleAnimation(() => {
+          callback?.();
+        });
         startBlinkAnimation();
         if (newTipText) {
           setTipText(newTipText);
         }
-        
       },
     }));
     const startRippleAnimation = (callback?: () => void) => {
@@ -59,7 +57,7 @@ const RippleView = React.forwardRef<RippleViewRef, RippleViewProps>(
           duration: RIPPLE_ANIM_DURATION,
           useNativeDriver: false,
         }),
-      ]).start(({finished}) => {
+      ]).start(({ finished }) => {
         if (finished) {
           Animated.timing(rippleOpacity, {
             toValue: 0,
@@ -88,17 +86,14 @@ const RippleView = React.forwardRef<RippleViewRef, RippleViewProps>(
           useNativeDriver: true,
         }),
       ]);
-      let animation = Animated.loop(animSequence, {iterations: 2});
+      let animation = Animated.loop(animSequence, { iterations: 2 });
       animation.start(() => {
         callback?.();
       });
     };
-    
 
     return (
-      <View
-        style={[styles.container, style]}
-        pointerEvents="none">
+      <View style={[styles.container, style]} pointerEvents="none">
         <Animated.View
           style={[
             styles.ripple,
@@ -110,27 +105,26 @@ const RippleView = React.forwardRef<RippleViewRef, RippleViewProps>(
             rippleStyle,
             {
               opacity: rippleOpacity,
-              transform: [
-                {scale: rippleScale},
-              ],
+              transform: [{ scale: rippleScale }],
             },
           ]}
         />
         <View style={[styles.innerContainer, containerStyle]}>
-          <View style={{flex: 0.45}} />
-          <View style={{flex: 0.55}}>
+          <View style={{ flex: 0.45 }} />
+          <View style={{ flex: 0.55 }}>
             <Animated.View
-              style={[styles.flashContainer, {opacity: blinkViewOpacity}]}>
+              style={[styles.flashContainer, { opacity: blinkViewOpacity }]}
+            >
               {children}
             </Animated.View>
-            <Animated.Text style={[styles.text, {opacity: blinkViewOpacity}]}>
+            <Animated.Text style={[styles.text, { opacity: blinkViewOpacity }]}>
               {tipText}
             </Animated.Text>
           </View>
         </View>
       </View>
     );
-  },
+  }
 );
 
 export default RippleView;

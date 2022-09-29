@@ -1,12 +1,10 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NexenPlayer from 'react-native-nexen-player';
 
-type Props = {}
-
-const ScrollViewScreen = (props: Props) => {
+const ScrollViewScreen = () => {
 
     const navigation = useNavigation();
   const edgeinsets = useSafeAreaInsets();
@@ -28,7 +26,7 @@ const ScrollViewScreen = (props: Props) => {
   };
 
   const onFullScreenModeUpdate = async (fullScreen: boolean, index?: number) => {
-    console.log(`Player: onFullScreenModeUpdate:${fullScreen}`);
+    console.log(`Player: onFullScreenModeUpdate:${fullScreen} index: ${index}`);
     if (fullScreen) {
         hideTabBar();
       // Orientation.lockToLandscape();

@@ -64,7 +64,7 @@ const SlideButton = (props: SlideButtonProps) => {
   const isRTL = I18nManager.isRTL;
   const rtlMultiplier = isRTL ? -1 : 1;
   let height = theme?.thumbWidth! + theme?.padding! * 2;
-  let borderRadius = (height! / 2);
+  let borderRadius = height! / 2;
   let childHeight = theme?.thumbHeight;
   const childRadius = theme?.thumbCornerRadius;
 
@@ -78,7 +78,8 @@ const SlideButton = (props: SlideButtonProps) => {
 
   React.useEffect(() => {
     slideDistance.current =
-      (dimensions.width - theme?.padding! * 2 - theme?.thumbWidth!) * rtlMultiplier;
+      (dimensions.width - theme?.padding! * 2 - theme?.thumbWidth!) *
+      rtlMultiplier;
     slideThreshold.current = slideDistance.current * (completeThreshold! / 100);
   }, [dimensions]);
 
@@ -228,20 +229,15 @@ const SlideButton = (props: SlideButtonProps) => {
         e: GestureResponderEvent,
         gestureState: PanResponderGestureState
       ) => false,
-      onPanResponderTerminate: (
-        e: GestureResponderEvent,
-        gestureState: PanResponderGestureState
-      ) => {
-      },
     })
   );
 
   const containerStyle = {
     width,
-    height: height, 
+    height: height,
     borderRadius,
     backgroundColor: theme?.containerColor,
-  }
+  };
   const titleContainerStyle = {
     height: childHeight,
     margin: theme?.padding!,
@@ -252,11 +248,11 @@ const SlideButton = (props: SlideButtonProps) => {
     color: theme?.textColor,
     opacity: textOpacity.current,
     fontFamily: theme?.font,
-  }
+  };
 
   const underlayStyle = {
     left: theme?.padding!!,
-    width: underLayWidth, 
+    width: underLayWidth,
     height: childHeight,
     borderRadius: childRadius,
     backgroundColor: theme?.underlayColor,
@@ -279,38 +275,22 @@ const SlideButton = (props: SlideButtonProps) => {
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        containerStyle,
-      ]}
-      onLayout={onLayoutChange}
-    >
+    <View style={[styles.container, containerStyle]} onLayout={onLayoutChange}>
       {/* button title */}
       <View style={[styles.titleContainer, titleContainerStyle]}>
         <Animated.Text
           numberOfLines={2}
           allowFontScaling={false}
-          style={[
-            styles.title,
-            titleStyle,
-          ]}>
+          style={[styles.title, titleStyle]}
+        >
           {title}
         </Animated.Text>
       </View>
       {/* underlay */}
-      <Animated.View
-        style={[
-          styles.underlayContainer,
-          underlayStyle,
-        ]}
-      />
+      <Animated.View style={[styles.underlayContainer, underlayStyle]} />
       {/* button thumb */}
       <Animated.View
-        style={[
-          styles.thumbContainer,
-          thumbStyle,
-        ]}
+        style={[styles.thumbContainer, thumbStyle]}
         {...panResponder.current.panHandlers}
       >
         <Animated.View style={[styles.iconContainer, iconContainerStyle]}>

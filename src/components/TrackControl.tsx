@@ -61,13 +61,6 @@ const TrackControl = (props: TrackControlProps) => {
   const [selectedAudioItem, setSelectedAudioItem] = React.useState<
     DropDownItem | undefined
   >();
-  const data = [
-    { label: 'One', value: '1' },
-    { label: 'Two', value: '2' },
-    { label: 'Three', value: '3' },
-    { label: 'Four', value: '4' },
-    { label: 'Five', value: '5' },
-  ];
 
   const dropDownTheme = React.useMemo((): DropDownTheme => {
     return {

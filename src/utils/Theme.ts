@@ -135,7 +135,6 @@ export type SpeedSeekBarTheme = {
     dotColor?: ColorValue;
     thumbColor?: ColorValue;
     textColor?: ColorValue;
-
     textSize?: number;
     lineHeight?: number;
     dotSize?: number;
@@ -201,7 +200,7 @@ export interface LockButtonTheme {
     thumbColor?: ColorValue;
     thumbIconColor?: ColorValue;
     textColor?: ColorValue;
-    
+
     textSize?: number;
     thumbIconSize?: number;
     thumbWidth?: number;
@@ -302,7 +301,7 @@ export const DefaultTheme: NexenTheme = {
 
     },
     fonts: {
-        
+
     },
     sizes: {
         ...DefaultSizesTheme

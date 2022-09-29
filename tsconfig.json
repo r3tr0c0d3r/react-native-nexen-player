@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-nexen-player": ["./src/index"],
+      "react-native-nexen-player": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -25,8 +25,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "typeRoots": [
-      "./node_modules/@types",
-    ],
-  },
+    "typeRoots": ["./node_modules/@types"]
+  }
 }

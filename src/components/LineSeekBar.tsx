@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Animated,
-  I18nManager,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Animated, I18nManager, StyleSheet, View } from 'react-native';
 import type { LineBarTheme } from '../utils/Theme';
 import { boundPosition, trackToSeekValue } from '../utils/MathUtil';
 

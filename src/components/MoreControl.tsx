@@ -6,16 +6,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
   ViewStyle,
 } from 'react-native';
 import type { NexenTheme } from '../utils/Theme';
-import {
-  IconInfo,
-  IconRepeat,
-  IconUnlock,
-  IconZap,
-} from '../assets/icons';
+import { IconRepeat, IconUnlock, IconZap } from '../assets/icons';
 import GradientView from './GradientView';
 import { EdgeInsets } from './NexenPlayer';
 import { withAnimation } from '../hoc/withAnimation';
@@ -36,55 +30,49 @@ type MoreControlProps = {
 };
 
 const MoreControl = (props: MoreControlProps) => {
-  const {
-    style,
-    fullScreen,
-    insets,
-    nexenTheme,
-    onItemPress,
-  } = props;
+  const { style, fullScreen, insets, nexenTheme, onItemPress } = props;
   const [moreItems, setMoreItems] = React.useState<MoreItem[]>([]);
   const ICON_SIZE = nexenTheme?.sizes?.secondaryIconSize;
-  const ICON_COLOR = nexenTheme?.colors?.secondaryIconColor
-  const TEXT_COLOR = nexenTheme?.colors?.secondaryTextColor
-  
-  const CONTAINER_VERTICAL_PADDING = fullScreen 
-    ? (insets?.top! + insets?.bottom!) / 2 > 0 
-    ? (insets?.top! + insets?.bottom!) / 2
-    : nexenTheme?.sizes?.paddingVertical
+  const ICON_COLOR = nexenTheme?.colors?.secondaryIconColor;
+  const TEXT_COLOR = nexenTheme?.colors?.secondaryTextColor;
+
+  const CONTAINER_VERTICAL_PADDING = fullScreen
+    ? (insets?.top! + insets?.bottom!) / 2 > 0
+      ? (insets?.top! + insets?.bottom!) / 2
+      : nexenTheme?.sizes?.paddingVertical
     : nexenTheme?.sizes?.paddingVertical;
 
-    React.useEffect(() => {
-      const MORE_ITEMS = [
-        {
-          id: 'lock',
-          icon: <IconUnlock size={ICON_SIZE} color={ICON_COLOR} />,
-          label: 'Lock',
-        },
-        {
-          id: 'speed',
-          icon: <IconZap size={ICON_SIZE} color={ICON_COLOR} />,
-          label: 'Playback Speed',
-        },
-        {
-          id: 'repeat',
-          icon: <IconRepeat size={ICON_SIZE} color={ICON_COLOR} />,
-          label: 'Repeat Mode',
-        },
-        // {
-        //   id: 'reload',
-        //   icon: <IconReload size={ICON_SIZE} color={ICON_COLOR} />,
-        //   label: 'Reload Video',
-        // },
-        // {
-        //   id: 'info',
-        //   icon: <IconInfo size={ICON_SIZE} color={ICON_COLOR} />,
-        //   label: 'Video Info',
-        // },
-      ];
-  
-      setMoreItems(MORE_ITEMS);
-    }, []);
+  React.useEffect(() => {
+    const MORE_ITEMS = [
+      {
+        id: 'lock',
+        icon: <IconUnlock size={ICON_SIZE} color={ICON_COLOR} />,
+        label: 'Lock',
+      },
+      {
+        id: 'speed',
+        icon: <IconZap size={ICON_SIZE} color={ICON_COLOR} />,
+        label: 'Playback Speed',
+      },
+      {
+        id: 'repeat',
+        icon: <IconRepeat size={ICON_SIZE} color={ICON_COLOR} />,
+        label: 'Repeat Mode',
+      },
+      // {
+      //   id: 'reload',
+      //   icon: <IconReload size={ICON_SIZE} color={ICON_COLOR} />,
+      //   label: 'Reload Video',
+      // },
+      // {
+      //   id: 'info',
+      //   icon: <IconInfo size={ICON_SIZE} color={ICON_COLOR} />,
+      //   label: 'Video Info',
+      // },
+    ];
+
+    setMoreItems(MORE_ITEMS);
+  }, []);
 
   const containerStyle = {
     top: CONTAINER_VERTICAL_PADDING,
@@ -97,16 +85,17 @@ const MoreControl = (props: MoreControlProps) => {
   const itemTextStyle = {
     color: TEXT_COLOR,
     fontFamily: nexenTheme?.fonts?.secondaryFont,
-  }
+  };
 
-  const renderMoreItem = ({item}: ListRenderItemInfo<MoreItem>) => {
+  const renderMoreItem = ({ item }: ListRenderItemInfo<MoreItem>) => {
     return (
       <TouchableOpacity
         style={styles.itemContainer}
         activeOpacity={0.6}
         onPress={() => {
           onItemPress?.(item);
-        }}>
+        }}
+      >
         {item.icon}
         <Text style={[styles.itemText, itemTextStyle]}>{item.label}</Text>
       </TouchableOpacity>
@@ -119,8 +108,8 @@ const MoreControl = (props: MoreControlProps) => {
           height: '100%',
           width: '100%',
         }}
-        startPoint={{x: 0, y: 0}}
-        endPoint={{x: 1, y: 0}}
+        startPoint={{ x: 0, y: 0 }}
+        endPoint={{ x: 1, y: 0 }}
         startOpacity={0.0}
         middleOpacity={0.2}
         endOpacity={0.5}
@@ -138,9 +127,7 @@ const MoreControl = (props: MoreControlProps) => {
 
 export default withAnimation(MoreControl);
 
-MoreControl.defaultProps = {
-  
-};
+MoreControl.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: {

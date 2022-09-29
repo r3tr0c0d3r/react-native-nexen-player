@@ -64,16 +64,16 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
 
     const TITLE_TEXT_SIZE = nexenTheme?.sizes?.primaryTextSize;
     const TITLE_TEXT_COLOR = nexenTheme?.colors?.primaryTextColor;
-    const CONTAINER_VERTICAL_PADDING = fullScreen 
-    ? insets?.top! > 0 
-    ? insets?.top! 
-    : nexenTheme?.sizes?.paddingVertical
-    : nexenTheme?.sizes?.paddingVertical;
-    const CONTAINER_HORIZONTAL_PADDING = fullScreen 
-    ? (insets?.left! + insets?.right!) / 2 > 0 
-    ? (insets?.left! + insets?.right!) / 2
-    : nexenTheme?.sizes?.paddingHorizontal
-    : nexenTheme?.sizes?.paddingHorizontal;
+    const CONTAINER_VERTICAL_PADDING = fullScreen
+      ? insets?.top! > 0
+        ? insets?.top!
+        : nexenTheme?.sizes?.paddingVertical
+      : nexenTheme?.sizes?.paddingVertical;
+    const CONTAINER_HORIZONTAL_PADDING = fullScreen
+      ? (insets?.left! + insets?.right!) / 2 > 0
+        ? (insets?.left! + insets?.right!) / 2
+        : nexenTheme?.sizes?.paddingHorizontal
+      : nexenTheme?.sizes?.paddingHorizontal;
     const CONTAINER_HEIGHT =
       nexenTheme?.sizes?.primaryIconSize! +
       10 * 2 +
@@ -109,7 +109,7 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
         borderColor:
           nexenTheme?.tagView?.borderColor ||
           getAlphaColor(nexenTheme?.colors?.accentColor!, 0.7),
-        backgroundColor: 
+        backgroundColor:
           nexenTheme?.tagView?.backgroundColor ||
           getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.0),
       };
@@ -118,7 +118,7 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
     const titleTextStyle = {
       fontSize: TITLE_TEXT_SIZE,
       color: TITLE_TEXT_COLOR,
-      fontFamily: nexenTheme?.fonts?.primaryFont
+      fontFamily: nexenTheme?.fonts?.primaryFont,
     };
 
     return (
@@ -175,22 +175,28 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
 
               <View style={[styles.iconButtonContainer]}>
                 {!locked && playerConfig?.layoutMode === 'advanced' && (
-                  <IconTagView ref={iconTagViewRef}
-                   style={{marginHorizontal: 4}}
-                   theme={iconTagViewTheme} />
+                  <IconTagView
+                    ref={iconTagViewRef}
+                    style={{ marginHorizontal: 4 }}
+                    theme={iconTagViewTheme}
+                  />
                 )}
 
-                {!locked && !playerConfig?.disableResizeMode && playerConfig?.layoutMode === 'intermediate' && (
-                  <IconButton onPress={onAspectRatioPress}>
-                    <IconAspectRatio size={ICON_SIZE} color={ICON_COLOR} />
-                  </IconButton>
-                )}
+                {!locked &&
+                  !playerConfig?.disableResizeMode &&
+                  playerConfig?.layoutMode === 'intermediate' && (
+                    <IconButton onPress={onAspectRatioPress}>
+                      <IconAspectRatio size={ICON_SIZE} color={ICON_COLOR} />
+                    </IconButton>
+                  )}
 
-                {!locked && !playerConfig?.disableMore && playerConfig?.layoutMode === 'advanced' && (
-                  <IconButton onPress={onMorePress}>
-                    <IconMoreHorizontal size={ICON_SIZE} color={ICON_COLOR} />
-                  </IconButton>
-                )}
+                {!locked &&
+                  !playerConfig?.disableMore &&
+                  playerConfig?.layoutMode === 'advanced' && (
+                    <IconButton onPress={onMorePress}>
+                      <IconMoreHorizontal size={ICON_SIZE} color={ICON_COLOR} />
+                    </IconButton>
+                  )}
               </View>
             </View>
           </View>
@@ -202,9 +208,7 @@ const HeaderControl = React.forwardRef<HeaderControlRef, HeaderControlProps>(
 
 export default React.memo(HeaderControl);
 
-HeaderControl.defaultProps = {
-  
-};
+HeaderControl.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: {

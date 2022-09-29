@@ -15,9 +15,6 @@ import {
   IconStop,
   IconVolume,
   IconVolume2,
-  IconSun1,
-  IconRepeat1,
-  IconZap,
   IconSkipBack,
   IconSkipForward,
   IconPlayCircle,
@@ -30,10 +27,7 @@ import { formatTime } from '../utils/StringUtil';
 import SeekBar, { SeekBarTheme } from './SeekBar';
 import SlideButton, { SlideButtonTheme } from './SlideButton';
 import GradientView from './GradientView';
-import {
-  IconTagViewRef,
-  IconTagViewState,
-} from './IconTagView';
+import { IconTagViewRef, IconTagViewState } from './IconTagView';
 import { getAlphaColor } from '../utils/ColorUtil';
 import TimeTagView, { TimeTagViewTheme } from './TimeTagView';
 import VolumeTagView, { VolumeTagViewTheme } from './VolumeTagView';
@@ -129,8 +123,6 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
       onSlideEnd,
       onReachedToStart,
       onReachedToEnd,
-      onFastForward,
-      onRewind,
       onSkipNext,
       onSkipBack,
       onAspectRatioPress,
@@ -141,19 +133,20 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
     const ICON_SIZE_FACTOR = playerConfig?.layoutMode === 'advanced' ? 1.8 : 1;
     const ICON_SIZE = nexenTheme?.sizes?.primaryIconSize;
     const ICON_COLOR = nexenTheme?.colors?.primaryIconColor;
-    const CONTAINER_VERTICAL_PADDING = fullScreen 
-    ? insets?.bottom! > 0 
-    ? insets?.bottom!
-    : nexenTheme?.sizes?.paddingVertical
-    : nexenTheme?.sizes?.paddingVertical;
-    const CONTAINER_HORIZONTAL_PADDING = fullScreen 
-    ? (insets?.left! + insets?.right!) / 2 > 0
-    ? (insets?.left! + insets?.right!) / 2
-    : nexenTheme?.sizes?.paddingHorizontal
-    : nexenTheme?.sizes?.paddingHorizontal;
-    const TAG_VIEW_HEIGHT = playerConfig?.layoutMode === 'advanced' 
-    ? nexenTheme?.tagView?.height! 
-    : nexenTheme?.tagView?.height! + 8;
+    const CONTAINER_VERTICAL_PADDING = fullScreen
+      ? insets?.bottom! > 0
+        ? insets?.bottom!
+        : nexenTheme?.sizes?.paddingVertical
+      : nexenTheme?.sizes?.paddingVertical;
+    const CONTAINER_HORIZONTAL_PADDING = fullScreen
+      ? (insets?.left! + insets?.right!) / 2 > 0
+        ? (insets?.left! + insets?.right!) / 2
+        : nexenTheme?.sizes?.paddingHorizontal
+      : nexenTheme?.sizes?.paddingHorizontal;
+    const TAG_VIEW_HEIGHT =
+      playerConfig?.layoutMode === 'advanced'
+        ? nexenTheme?.tagView?.height!
+        : nexenTheme?.tagView?.height! + 8;
 
     const CONTAINER_HEIGHT = locked
       ? ICON_SIZE! * ICON_SIZE_FACTOR +
@@ -173,7 +166,6 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
     }));
 
     const seekBarTheme = React.useMemo((): SeekBarTheme => {
-
       return {
         trackColor:
           nexenTheme?.trackSeekBar?.trackColor ||
@@ -202,24 +194,23 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
 
     const volumeSeekBarTheme = React.useMemo((): VolumeTagViewTheme => {
       return {
-        barColor: playerConfig?.muted 
-        ? '#414141'
-        :  nexenTheme?.miniSeekBar?.barColor ||
-          getAlphaColor(nexenTheme?.colors?.secondaryColor!, 0.7),
-        underlayColor: playerConfig?.muted 
-        ? '#919191'
-        :  nexenTheme?.miniSeekBar?.underlayColor ||
-          getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.3),
-        thumbColor: playerConfig?.muted 
-        ? '#313131'
-        :  nexenTheme?.miniSeekBar?.thumbColor ||
-          nexenTheme?.colors?.accentColor,
+        barColor: playerConfig?.muted
+          ? '#414141'
+          : nexenTheme?.miniSeekBar?.barColor ||
+            getAlphaColor(nexenTheme?.colors?.secondaryColor!, 0.7),
+        underlayColor: playerConfig?.muted
+          ? '#919191'
+          : nexenTheme?.miniSeekBar?.underlayColor ||
+            getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.3),
+        thumbColor: playerConfig?.muted
+          ? '#313131'
+          : nexenTheme?.miniSeekBar?.thumbColor ||
+            nexenTheme?.colors?.accentColor,
         borderColor:
           nexenTheme?.tagView?.borderColor ||
           getAlphaColor(nexenTheme?.colors?.accentColor!, 0.7),
 
         iconColor: nexenTheme?.colors?.primaryIconColor,
-
         iconSize: nexenTheme?.sizes?.primaryIconSize,
         height: nexenTheme?.tagView?.height,
         cornerRadius: nexenTheme?.tagView?.cornerRadius,
@@ -245,14 +236,13 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
         borderColor:
           nexenTheme?.tagView?.borderColor ||
           getAlphaColor(nexenTheme?.colors?.secondaryColor!, 0.3),
-        backgroundColor: 
+        backgroundColor:
           nexenTheme?.tagView?.backgroundColor ||
           getAlphaColor(nexenTheme?.colors?.primaryColor!, 0.0),
       };
     }, [nexenTheme, fullScreen]);
 
     const slideButtonTheme = React.useMemo((): SlideButtonTheme => {
-
       return {
         font: nexenTheme?.fonts?.secondaryFont,
         containerColor:
@@ -405,11 +395,13 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
                 <IconAspectRatio size={ICON_SIZE} color={ICON_COLOR} />
               </IconButton>
             )}
-            {!disablePlaylistAndSkip && !playerConfig?.disablePlayList && !locked && (
-              <IconButton onPress={onVideoListPress}>
-              <IconFilm size={ICON_SIZE} color={ICON_COLOR} />
-            </IconButton>
-            )}
+            {!disablePlaylistAndSkip &&
+              !playerConfig?.disablePlayList &&
+              !locked && (
+                <IconButton onPress={onVideoListPress}>
+                  <IconFilm size={ICON_SIZE} color={ICON_COLOR} />
+                </IconButton>
+              )}
           </View>
 
           <View
@@ -550,8 +542,10 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
             ) : (
               <View style={styles.unlockedViewContainer}>
                 {playerConfig?.layoutMode === 'basic' && renderBasicLayout()}
-                {playerConfig?.layoutMode === 'intermediate' && renderIntermediateLayout()}
-                {playerConfig?.layoutMode === 'advanced' && renderAdvancedLayout()}
+                {playerConfig?.layoutMode === 'intermediate' &&
+                  renderIntermediateLayout()}
+                {playerConfig?.layoutMode === 'advanced' &&
+                  renderAdvancedLayout()}
               </View>
             )}
           </View>
@@ -563,9 +557,7 @@ const FooterControl = React.forwardRef<FooterControlRef, FooterControlProps>(
 
 export default React.memo(FooterControl);
 
-FooterControl.defaultProps = {
-  
-};
+FooterControl.defaultProps = {};
 
 const styles = StyleSheet.create({
   container: {
